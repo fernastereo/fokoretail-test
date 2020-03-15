@@ -4,7 +4,7 @@
 <b-container>
     <b-row>
         <b-col></b-col>
-        <b-col cols="6">
+        <b-col cols="8">
             <b-card
                 header="Login"
                 header-tag="header"
@@ -41,7 +41,6 @@
                             id="password"
                             type="password"
                             name="password" 
-                            value="{{ old('password') }}" 
                             required 
                             autocomplete="current-password" 
                         ></b-form-input>
