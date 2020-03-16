@@ -2,7 +2,7 @@
     <b-list-group-item class="p-0" :variant="variant">
         <b-row class="p-0">
             <b-col cols="12" md="3" class="text-center">
-                <b-img rounded="circle" blank width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
+                <b-img rounded="circle" src="https://picsum.photos/250/250" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
             </b-col>
             <b-col cols="6" align-self="center" class="d-none d-md-block">
                 <p class="mb-0">{{ name }}</p>

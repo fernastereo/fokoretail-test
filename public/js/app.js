@@ -1928,6 +1928,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -75448,26 +75506,195 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "b-row",
+    { staticClass: "h-100", attrs: { "no-gutters": "" } },
     [
-      _c("b-col", { attrs: { cols: "8" } }),
+      _c("b-col", { attrs: { cols: "8" } }, [
+        _c("div", { staticClass: "card h-100" }, [
+          _c("div", { staticClass: "card-header text-center" }, [
+            _vm._v("\n        Active Conversation\n      ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-body h-100" },
+            [
+              _c(
+                "b-media",
+                {
+                  staticClass: "mb-2",
+                  attrs: { "vertical-align": "center" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "aside",
+                      fn: function() {
+                        return [
+                          _c("b-img", {
+                            attrs: {
+                              rounded: "circle",
+                              src: "https://picsum.photos/250/250",
+                              width: "50",
+                              height: "50",
+                              "blank-color": "#ccc",
+                              alt: "placeholder"
+                            }
+                          })
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
+                },
+                [
+                  _vm._v(" "),
+                  _c("b-card", { attrs: { "no-body": "" } }, [
+                    _c("p", { staticClass: "mb-0 small p-2" }, [
+                      _vm._v(
+                        "\n            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.\n            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac\n            nisi vulputate fringilla. Donec lacinia congue felis in faucibus.\n            "
+                      )
+                    ])
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-media",
+                {
+                  staticClass: "mb-2",
+                  attrs: { "right-align": "", "vertical-align": "center" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "aside",
+                      fn: function() {
+                        return [
+                          _c("b-img", {
+                            attrs: {
+                              rounded: "circle",
+                              src: "https://picsum.photos/250/250",
+                              width: "50",
+                              height: "50",
+                              "blank-color": "#ccc",
+                              alt: "placeholder"
+                            }
+                          })
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
+                },
+                [
+                  _vm._v(" "),
+                  _c("b-card", { attrs: { "no-body": "" } }, [
+                    _c("p", { staticClass: "mb-0 small p-2" }, [
+                      _vm._v(
+                        "\n            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.\n            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac\n            nisi vulputate fringilla. Donec lacinia congue felis in faucibus.\n            "
+                      )
+                    ])
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-media",
+                {
+                  staticClass: "mb-2",
+                  attrs: { "right-align": "", "vertical-align": "center" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "aside",
+                      fn: function() {
+                        return [
+                          _c("b-img", {
+                            attrs: {
+                              rounded: "circle",
+                              src: "https://picsum.photos/250/250",
+                              width: "50",
+                              height: "50",
+                              "blank-color": "#ccc",
+                              alt: "placeholder"
+                            }
+                          })
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
+                },
+                [
+                  _vm._v(" "),
+                  _c("b-card", { attrs: { "no-body": "" } }, [
+                    _c("p", { staticClass: "mb-0 small p-2" }, [
+                      _vm._v(
+                        "\n            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.\n            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac\n            nisi vulputate fringilla. Donec lacinia congue felis in faucibus.\n            "
+                      )
+                    ])
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-footer p-2" },
+            [
+              _c(
+                "b-form",
+                { staticClass: "mb-0" },
+                [
+                  _c(
+                    "b-input-group",
+                    [
+                      _c("b-form-input", {
+                        staticClass: "p-0",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Type your message..."
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "b-input-group-append",
+                        [
+                          _c("b-button", { attrs: { variant: "primary" } }, [
+                            _vm._v("Send")
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ])
+      ]),
       _vm._v(" "),
       _c(
         "b-col",
-        { attrs: { cols: "4" } },
+        { staticClass: "text-center", attrs: { cols: "4" } },
         [
           _c("b-img", {
             staticClass: "m-1",
             attrs: {
               rounded: "circle",
-              blank: "",
-              width: "50",
-              height: "50",
+              src: "https://picsum.photos/250/250/?image=59",
+              width: "120",
+              height: "120",
               "blank-color": "#777",
               alt: "img"
             }
           }),
           _vm._v(" "),
-          _c("p", [_vm._v("Usuario Seleccionado")]),
+          _c("p", [_vm._v("Selected User")]),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
@@ -75488,7 +75715,7 @@ var render = function() {
                 expression: "status"
               }
             },
-            [_vm._v("\n        I accept the terms and use\n    ")]
+            [_vm._v("\n        Desabled notifications\n    ")]
           )
         ],
         1
@@ -75535,7 +75762,7 @@ var render = function() {
                 staticClass: "m-1",
                 attrs: {
                   rounded: "circle",
-                  blank: "",
+                  src: "https://picsum.photos/250/250",
                   width: "50",
                   height: "50",
                   "blank-color": "#777",
