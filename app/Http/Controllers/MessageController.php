@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -14,7 +15,13 @@ class MessageController extends Controller
      */
     public function index()
     {
-        return Message::all();
+        $user_id = auth()->id();
+        return Message::select(
+            'id',
+            DB::raw("IF(sender_id=$user_id, TRUE, FALSE) as written_by_me"),
+            'content',
+            'created_at'
+        )->get();
     }
 
     /**
@@ -25,7 +32,15 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $message = new Message();
+        $message->sender_id = auth()->id();
+        $message->receiver_id = $request->receiver_id;
+        $message->content = $request->content;
+        $saved = $message->save();
+
+        $data = [];
+        $data['success'] = $saved;
+        return $data;
     }
 
     /**

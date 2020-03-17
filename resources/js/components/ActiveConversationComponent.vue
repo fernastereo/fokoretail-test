@@ -6,52 +6,23 @@
           Active Conversation
         </div>
         <div class="card-body h-100">
-          <b-media vertical-align="center" class="mb-2">
-            <template v-slot:aside>
-              <b-img rounded="circle" src="https://picsum.photos/250/250" width="50" height="50" blank-color="#ccc" alt="placeholder"></b-img>
-            </template>
-            <b-card no-body>
-              <p class="mb-0 small p-2">
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-              Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac
-              nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </p>
-            </b-card>
-          </b-media>
-          <b-media right-align vertical-align="center" class="mb-2">
-            <template v-slot:aside>
-              <b-img rounded="circle" src="https://picsum.photos/250/250" width="50" height="50" blank-color="#ccc" alt="placeholder"></b-img>
-            </template>
-            <b-card no-body>
-              <p class="mb-0 small p-2">
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-              Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac
-              nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </p>
-            </b-card>
-          </b-media>
-          <b-media right-align vertical-align="center" class="mb-2">
-            <template v-slot:aside>
-              <b-img rounded="circle" src="https://picsum.photos/250/250" width="50" height="50" blank-color="#ccc" alt="placeholder"></b-img>
-            </template>
-            <b-card no-body>
-              <p class="mb-0 small p-2">
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-              Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac
-              nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </p>
-            </b-card>
-          </b-media>
+          <message-component 
+            v-for="message in messages" 
+            :key="message.id" 
+            :written-by-me="message.written_by_me">
+              {{ message.content }}
+          </message-component>
         </div>
         <div class="card-footer p-2">
-          <b-form class="mb-0">
+          <b-form class="mb-0" @submit.prevent="postMessage" autocomplete="off">
             <b-input-group>
               <b-form-input class="p-0"
                 type="text"
-                placeholder="Type your message..."
+                v-model="newMessage"
+                placeholder=" Type your message..."
               ></b-form-input>
               <b-input-group-append>
-                <b-button variant="primary">Send</b-button>
+                <b-button type="submit" variant="primary">Send</b-button>
               </b-input-group-append>
             </b-input-group>
           </b-form>
@@ -65,7 +36,6 @@
       <hr>
       <b-form-checkbox
           id="checkbox-1"
-          v-model="status"
           name="checkbox-1"
           value="accepted"
           unchecked-value="not_accepted"
@@ -80,10 +50,34 @@
     export default {
       data(){
         return {
+          messages: [],
+          newMessage: ''
         }
       },
       mounted() {
-          console.log('Component mounted.')
+          console.log('ActiveConversationComponent mounted');
+          this.getMessages();
+      },
+      methods: {
+        getMessages(){
+            axios.get('/api/messages').then((response) => {
+            console.log(response.data);
+            this.messages = response.data;
+          });
+        },
+        postMessage(){
+          const params = {
+            'receiver_id': 2,
+            'content': this.newMessage
+          };
+          axios.post('/api/messages', params)
+          .then((response) => {
+            if(response.data.success){
+              this.newMessage = '';
+              this.getMessages();
+            }
+          });
+        }
       }
     }
 </script>
