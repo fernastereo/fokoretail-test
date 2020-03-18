@@ -1960,7 +1960,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       messages: [],
-      newMessage: ''
+      newMessage: '',
+      contactId: 2
     };
   },
   mounted: function mounted() {
@@ -1971,7 +1972,7 @@ __webpack_require__.r(__webpack_exports__);
     getMessages: function getMessages() {
       var _this = this;
 
-      axios.get('/api/messages').then(function (response) {
+      axios.get("/api/messages?contact_id=".concat(this.contactId)).then(function (response) {
         console.log(response.data);
         _this.messages = response.data;
       });
@@ -1980,7 +1981,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var params = {
-        'receiver_id': 2,
+        'receiver_id': this.contactId,
         'content': this.newMessage
       };
       axios.post('/api/messages', params).then(function (response) {
@@ -2023,13 +2024,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['variant'],
+  props: {
+    variant: String,
+    conversation: Object
+  },
   data: function data() {
-    return {
-      name: 'Carlos Bacca',
-      lastMessage: 'Proximo Partido en abril',
-      lastTime: '10:56 a.m.'
-    };
+    return {};
   },
   mounted: function mounted() {
     console.log('ContactComponent mounted.');
@@ -2065,12 +2065,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      conversations: []
+    };
   },
   mounted: function mounted() {
     console.log('ContactListComponent mounted.');
+    this.getConversations();
+  },
+  methods: {
+    getConversations: function getConversations() {
+      var _this = this;
+
+      axios.get('/api/conversations').then(function (response) {
+        _this.conversations = response.data;
+      });
+    }
   }
 });
 
@@ -75704,7 +75718,7 @@ var render = function() {
                 staticClass: "m-1",
                 attrs: {
                   rounded: "circle",
-                  src: "https://picsum.photos/250/250",
+                  src: _vm.conversation.contact_avatar,
                   width: "50",
                   height: "50",
                   "blank-color": "#777",
@@ -75722,10 +75736,12 @@ var render = function() {
               attrs: { cols: "6", "align-self": "center" }
             },
             [
-              _c("p", { staticClass: "mb-0" }, [_vm._v(_vm._s(_vm.name))]),
+              _c("p", { staticClass: "mb-0" }, [
+                _vm._v(_vm._s(_vm.conversation.contact_name))
+              ]),
               _vm._v(" "),
               _c("p", { staticClass: "text-muted small mb-0" }, [
-                _vm._v(_vm._s(_vm.lastMessage))
+                _vm._v(_vm._s(_vm.conversation.last_message))
               ])
             ]
           ),
@@ -75735,7 +75751,7 @@ var render = function() {
             { staticClass: "d-none d-md-block", attrs: { cols: "3" } },
             [
               _c("p", { staticClass: "text-muted small mt-1" }, [
-                _vm._v(_vm._s(_vm.lastTime))
+                _vm._v(_vm._s(_vm.conversation.last_time))
               ])
             ]
           )
@@ -75785,17 +75801,12 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-list-group",
-        [
-          _c("contact-component", { attrs: { variant: "dark" } }),
-          _vm._v(" "),
-          _c("contact-component", { attrs: { variant: "" } }),
-          _vm._v(" "),
-          _c("contact-component", { attrs: { variant: "" } }),
-          _vm._v(" "),
-          _c("contact-component", { attrs: { variant: "" } }),
-          _vm._v(" "),
-          _c("contact-component", { attrs: { variant: "" } })
-        ],
+        _vm._l(_vm.conversations, function(conversation) {
+          return _c("contact-component", {
+            key: conversation.id,
+            attrs: { conversation: conversation }
+          })
+        }),
         1
       )
     ],

@@ -15,13 +15,22 @@ class MessagesTableSeeder extends Seeder
         Message::create([
             'sender_id' => 1,
             'receiver_id' => 2,
-            'content' => 'Hola me Como estas care verga?',
+            'content' => 'Hola Como estas care verga?',
         ]);
         Message::create([
             'sender_id' => 2,
             'receiver_id' => 1,
-            'content' => 'Aqui care mondá pasando el coronavirus y tu?',
+            'content' => 'Aqui pasando el coronavirus y tu?',
         ]);
-
+        Message::create([
+            'sender_id' => 3,
+            'receiver_id' => 1,
+            'content' => 'Todo bien y tu?',
+        ]);
+        Message::create([
+            'sender_id' => 1,
+            'receiver_id' => 3,
+            'content' => 'Como va la vaina?',
+        ]);
     }
 }
