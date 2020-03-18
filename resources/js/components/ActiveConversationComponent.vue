@@ -31,8 +31,8 @@
     </b-col>
 
     <b-col cols="4" class="text-center">
-      <b-img rounded="circle" src="https://picsum.photos/250/250/?image=59" width="120" height="120" blank-color="#777" alt="img" class="m-1"></b-img>
-      <p>Selected User</p>
+      <b-img rounded="circle" :src=contactAvatar width="120" height="120" blank-color="#777" alt="img" class="m-1"></b-img>
+      <p>{{ contactName }}</p>
       <hr>
       <b-form-checkbox
           id="checkbox-1"
@@ -48,11 +48,15 @@
 
 <script>
     export default {
+      props: {
+        contactId: Number,
+        contactName: String,
+        contactAvatar: String
+      },
       data(){
         return {
           messages: [],
-          newMessage: '',
-          contactId: 2,
+          newMessage: ''
         }
       },
       mounted() {
@@ -78,6 +82,12 @@
               this.getMessages();
             }
           });
+        }
+      },
+      watch:{
+        contactId(value){
+          // console.log(`contactId => ${this.contactId}`);
+          this.getMessages();
         }
       }
     }
