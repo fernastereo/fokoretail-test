@@ -1,20 +1,22 @@
 <template>
   <b-row no-gutters class="h-100">
     <b-col cols="8">
-      <div class="card h-100">
-        <div class="card-header text-center">
-          Active Conversation
-        </div>
-        <div class="card-body h-100">
+      <b-card no-body
+        footer-bg-variant="light"
+        footer-border-variant="dark"
+        title="Active Conversation"
+        class="h-100"
+        footer-class="p-1">
+        <b-card-body class="card-body-scroll">
           <message-component 
             v-for="message in messages" 
             :key="message.id" 
             :written-by-me="message.written_by_me">
               {{ message.content }}
           </message-component>
-        </div>
-        <div class="card-footer p-2">
-          <b-form class="mb-0" @submit.prevent="postMessage" autocomplete="off">
+        </b-card-body>
+        <div slot="footer">
+          <b-form class="m-0" @submit.prevent="postMessage" autocomplete="off">
             <b-input-group>
               <b-form-input class="p-0"
                 type="text"
@@ -27,7 +29,7 @@
             </b-input-group>
           </b-form>
         </div>
-      </div>
+      </b-card>
     </b-col>
 
     <b-col cols="4" class="text-center">
@@ -45,7 +47,12 @@
     </b-col>
   </b-row>
 </template>
-
+<style>
+  .card-body-scroll{
+    max-height: calc(100vh - 120px);
+    overflow-y: scroll;
+  }
+</style>
 <script>
     export default {
       props: {
@@ -74,7 +81,15 @@
               this.newMessage = '';              
             }
           });
+        },
+        scrollToBottom(){
+          const el = document.querySelector('.card-body-scroll');
+          el.scrollTop = el.scrollHeight;
         }
+      },
+      updated() {
+        //for watching messages variable, everytime it changes we're gonna call scrollToBottom
+        this.scrollToBottom();
       }
     }
 </script>
