@@ -51,25 +51,18 @@
       props: {
         contactId: Number,
         contactName: String,
-        contactAvatar: String
+        contactAvatar: String,
+        messages: Array,
       },
       data(){
         return {
-          messages: [],
           newMessage: ''
         }
       },
       mounted() {
-          console.log('ActiveConversationComponent mounted');
-          this.getMessages();
+
       },
       methods: {
-        getMessages(){
-            axios.get(`/api/messages?contact_id=${this.contactId}`).then((response) => {
-            console.log(response.data);
-            this.messages = response.data;
-          });
-        },
         postMessage(){
           const params = {
             'receiver_id': this.contactId,
@@ -78,16 +71,9 @@
           axios.post('/api/messages', params)
           .then((response) => {
             if(response.data.success){
-              this.newMessage = '';
-              this.getMessages();
+              this.newMessage = '';              
             }
           });
-        }
-      },
-      watch:{
-        contactId(value){
-          // console.log(`contactId => ${this.contactId}`);
-          this.getMessages();
         }
       }
     }

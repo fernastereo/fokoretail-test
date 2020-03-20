@@ -1960,29 +1960,18 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     contactId: Number,
     contactName: String,
-    contactAvatar: String
+    contactAvatar: String,
+    messages: Array
   },
   data: function data() {
     return {
-      messages: [],
       newMessage: ''
     };
   },
-  mounted: function mounted() {
-    console.log('ActiveConversationComponent mounted');
-    this.getMessages();
-  },
+  mounted: function mounted() {},
   methods: {
-    getMessages: function getMessages() {
-      var _this = this;
-
-      axios.get("/api/messages?contact_id=".concat(this.contactId)).then(function (response) {
-        console.log(response.data);
-        _this.messages = response.data;
-      });
-    },
     postMessage: function postMessage() {
-      var _this2 = this;
+      var _this = this;
 
       var params = {
         'receiver_id': this.contactId,
@@ -1990,17 +1979,9 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post('/api/messages', params).then(function (response) {
         if (response.data.success) {
-          _this2.newMessage = '';
-
-          _this2.getMessages();
+          _this.newMessage = '';
         }
       });
-    }
-  },
-  watch: {
-    contactId: function contactId(value) {
-      // console.log(`contactId => ${this.contactId}`);
-      this.getMessages();
     }
   }
 });
@@ -2036,17 +2017,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    userId: Number
+  },
   data: function data() {
     return {
-      selectedConversation: null
+      selectedConversation: null,
+      messages: []
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    Echo.channel('fokochat').listen('MessageSent', function (data) {
+      var message = data.message;
+      message.written_by_me = _this.userId == message.from_id;
+
+      _this.messages.push(message);
+    });
+  },
   methods: {
     changeConversation: function changeConversation(conversation) {
-      console.log('Conversacion seleccionada', conversation);
       this.selectedConversation = conversation;
+      this.getMessages();
+    },
+    getMessages: function getMessages() {
+      var _this2 = this;
+
+      axios.get("/api/messages?contact_id=".concat(this.selectedConversation.contact_id)).then(function (response) {
+        console.log(response.data);
+        _this2.messages = response.data;
+      });
     }
   }
 });
@@ -85699,7 +85702,8 @@ var render = function() {
                     attrs: {
                       "contact-id": _vm.selectedConversation.contact_id,
                       "contact-name": _vm.selectedConversation.contact_name,
-                      "contact-avatar": _vm.selectedConversation.contact_avatar
+                      "contact-avatar": _vm.selectedConversation.contact_avatar,
+                      messages: _vm.messages
                     }
                   })
                 : _vm._e()

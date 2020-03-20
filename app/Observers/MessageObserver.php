@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Message;
 use App\Conversation;
+use App\Events\MessageSent;
 
 class MessageObserver
 {
@@ -16,22 +17,24 @@ class MessageObserver
     public function created(Message $message)
     {
         $conversation = Conversation::where('user_id', $message->sender_id)
-                          ->where('contact_id', $message->receiver_id)
-                          ->first();
+                        ->where('contact_id', $message->receiver_id)
+                        ->first();
         if ($conversation) {
-          $conversation->last_message = "You: $message->content";
-          $conversation->last_time = $message->created_at;
-          $conversation->save();
+            $conversation->last_message = "You: $message->content";
+            $conversation->last_time = $message->created_at;
+            $conversation->save();
         }
 
         $conversation = Conversation::where('contact_id', $message->sender_id)
-                          ->where('user_id', $message->receiver_id)
-                          ->first();
+                        ->where('user_id', $message->receiver_id)
+                        ->first();
         if ($conversation) {
-          $conversation->last_message = "$conversation->contact_name: $message->content";
-          $conversation->last_time = $message->created_at;
-          $conversation->save();
+            $conversation->last_message = "$conversation->contact_name: $message->content";
+            $conversation->last_time = $message->created_at;
+            $conversation->save();
         }
+
+        event(new MessageSent($message));
     }
 
     /**
