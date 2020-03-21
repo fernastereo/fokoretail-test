@@ -36,6 +36,7 @@
     mounted(){
       this.getConversations();
 
+      //Channel for each user:
       Echo.private(`users.${this.userId}`)
         .listen('MessageSent', (data) => {
             console.log(message);
@@ -43,6 +44,17 @@
             const message = data.message;
             message.written_by_me = false;
             this.addMessage(message);
+        });
+      //Channel for get the presence of all users
+      Echo.join('messenger')
+        .here((users) => {
+          users.forEach((user) => this.changeStatus(user, true));
+        })
+        .joining((user) => {
+          this.changeStatus(user, true);
+        })
+        .leaving((user) => {
+          this.changeStatus(user, false);
         });
     },
     methods: {
@@ -78,6 +90,14 @@
           }
         );
       },
+      changeStatus(user, status){
+        const index = this.conversations.findIndex((conversation) => {
+          return conversation.contact_id == user.id;
+        });
+        if (index >= 0) {
+          this.$set(this.conversations[index], 'online', status);          
+        }
+      }
     }
   }
 </script>

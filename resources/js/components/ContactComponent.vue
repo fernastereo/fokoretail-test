@@ -5,7 +5,10 @@
                 <b-img rounded="circle" :src=conversation.contact_avatar width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
             </b-col>
             <b-col cols="6" align-self="center" class="d-none d-md-block">
-                <p class="mb-0">{{ conversation.contact_name }}</p>
+                <p class="mb-0">
+                    <status-component :online="conversation.online"></status-component>
+                    {{ conversation.contact_name }}
+                </p>
                 <p class="text-muted small mb-0">{{ conversation.last_message }}</p>
             </b-col>
             <b-col cols="3" class="d-none d-md-block">
