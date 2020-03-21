@@ -81,6 +81,7 @@
               this.newMessage = '';
               const message = response.data.message;
               message.written_by_me = true;
+              console.log(message);
               this.$emit('messageCreated', message);
             }
           });

@@ -7,7 +7,6 @@
         ></b-form-input>
     </b-form>
     <b-list-group>
-        <!-- <contact-component variant=""></contact-component> -->
         <contact-component 
           v-for="conversation in conversations" 
           :key="conversation.id"

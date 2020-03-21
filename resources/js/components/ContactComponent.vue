@@ -31,7 +31,7 @@
         },
         computed: {
             lastTime(){
-                return moment(this.conversation.last_time, "YYYY-MM-DD").fromNow();
+                return moment(this.conversation.last_time).fromNow();
             }
         }
     }
