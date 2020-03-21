@@ -20,6 +20,7 @@ class MessageSent implements ShouldBroadcast
      * @return void
      */
     public $message;
+
     public function __construct($message)
     {
         $this->message = $message;
@@ -32,6 +33,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('fokochat');
+        return new Channel('users.' . $this->message->receiver_id);
     }
 }

@@ -9,7 +9,7 @@
                 <p class="text-muted small mb-0">{{ conversation.last_message }}</p>
             </b-col>
             <b-col cols="3" class="d-none d-md-block">
-                <p class="text-muted small mt-1">{{ conversation.last_time }}</p>
+                <p class="text-muted small mt-1">{{ lastTime }}</p>
             </b-col>
         </b-row>        
     </b-list-group-item>
@@ -17,17 +17,22 @@
 
 <script>
     export default {
-      props: {
-        variant: String,
-        conversation: Object
-      },
-      data(){
-        return {
+        props: {
+            variant: String,
+            conversation: Object
+        },
+        data(){
+            return {
 
+            }
+        },
+        mounted() {
+            console.log('ContactComponent mounted.')
+        },
+        computed: {
+            lastTime(){
+                return moment(this.conversation.last_time, "YYYY-MM-DD").fromNow();
+            }
         }
-      },
-      mounted() {
-          console.log('ContactComponent mounted.')
-      }
     }
 </script>

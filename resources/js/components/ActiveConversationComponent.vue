@@ -78,7 +78,10 @@
           axios.post('/api/messages', params)
           .then((response) => {
             if(response.data.success){
-              this.newMessage = '';              
+              this.newMessage = '';
+              const message = response.data.message;
+              message.written_by_me = true;
+              this.$emit('messageCreated', message);
             }
           });
         },
