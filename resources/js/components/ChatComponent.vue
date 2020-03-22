@@ -2,9 +2,16 @@
   <b-container fluid class="h-100">
       <b-row no-gutters class="h-100">
           <b-col cols="4">
+              <b-form class="my-3 mx-2">
+                <b-form-input class="text-center"
+                    type="text"
+                    v-model="querySearch" 
+                    placeholder="Search contact..."
+                ></b-form-input>
+              </b-form>
               <contact-list-component 
                 @conversationSelected="changeConversation($event)"
-                :conversations="conversations">
+                :conversations="filteredConversations">
               </contact-list-component>
           </b-col>
           <b-col cols="8">
@@ -31,6 +38,7 @@
         selectedConversation: null,
         messages: [],
         conversations: [],
+        querySearch: ''
       };
     },
     mounted(){
@@ -97,6 +105,11 @@
         if (index >= 0) {
           this.$set(this.conversations[index], 'online', status);          
         }
+      }
+    },
+    computed: {
+      filteredConversations(){
+        return this.conversations.filter((conversation) => conversation.contact_name.toLowerCase().includes(this.querySearch.toLowerCase()));
       }
     }
   }
