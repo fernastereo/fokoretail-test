@@ -77,7 +77,7 @@
         this.getMessages();
       },
       getMessages(){
-          axios.get(`/api/messages?contact_id=${this.selectedConversation.contact_id}`)
+          axios.get(`/api/messages/${this.selectedConversation.contact_id}`)
             .then((response) => {
               this.messages = response.data;
             });

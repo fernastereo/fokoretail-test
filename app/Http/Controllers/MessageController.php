@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,10 +14,9 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($contact_id)
     {
         $user_id = auth()->id();
-        $contact_id = $request->contact_id;
         return Message::select(
             'id',
             DB::raw("IF(sender_id=$user_id, TRUE, FALSE) as written_by_me"),
