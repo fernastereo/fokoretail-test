@@ -67,8 +67,12 @@ class UserController extends Controller
             $user->avatar = $imageName;
         }
         $user->name = $request->input('name');
-        $user->save();
-        return $user;
+        $saved = $user->save();
+
+        $data = [];
+        $data['success'] = $saved;
+        $data['profile'] = $user;
+        return $data;
     }
 
     /**
@@ -77,8 +81,8 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function invite()
     {
-        //
+        return view('users.invite');
     }
 }

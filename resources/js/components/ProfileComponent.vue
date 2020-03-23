@@ -3,6 +3,7 @@
   <b-row no-gutters class="h-100">
     <b-col></b-col>
     <b-col cols="8">
+      <b-alert variant="success" :show="showDismissibleAlert">Profile Updated</b-alert>
       <b-form enctype="multipart/form-data">
         <b-form-group label="Email address:">
           <b-form-input
@@ -50,6 +51,7 @@
         name: this.user.name,
         email: this.user.email,
         avatar: null,
+        showDismissibleAlert: false,
       }
     },
     methods: {
@@ -72,10 +74,12 @@
             'email':this.email,
             'avatar':this.avatar,
         };
-        console.log(params);
+        
         axios.put(`/api/profile/${this.user.id}`, params)
-          .then(function (response) {
-            console.log(response.data);
+          .then((response) => {
+            if (response.data.success) {
+              this.showDismissibleAlert = true;
+            }
         })
         .catch(function (error) {
             console.log(error);

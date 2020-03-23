@@ -45,7 +45,7 @@
     },
     mounted(){
       this.getConversations();
-
+      
       //Channel for each user:
       Echo.private(`users.${this.userId}`)
         .listen('MessageSent', (data) => {
@@ -100,7 +100,7 @@
       getConversations(){
         axios.get('/api/conversations')
           .then((response) => {
-            this.conversations = response.data;
+            this.conversations = response.data;            
           }
         );
       },

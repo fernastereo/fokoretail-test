@@ -38,6 +38,9 @@
                         @endif
                     @else
                             <b-nav-item-dropdown text="{{ Auth::user()->name }}" right>
+                                <b-dropdown-item href="{{ route('profile.invite') }}">
+                                    {{ __('Invite a Friend') }}
+                                </b-dropdown-item>
                                 <b-dropdown-item href="{{ route('profile.edit') }}">
                                     {{ __('Profile') }}
                                 </b-dropdown-item>
