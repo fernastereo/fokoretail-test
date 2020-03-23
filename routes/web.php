@@ -21,7 +21,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile', 'UserController@edit')->name('profile.edit');
 
+
+Route::put('/api/profile/{user}', 'UserController@update');
+Route::get('/api/profile/{user}', 'UserController@show')->name('profile.show');
 Route::get('/api/conversations', 'ConversationController@index');
 Route::get('/api/messages', 'MessageController@index');
 Route::post('/api/messages', 'MessageController@store');

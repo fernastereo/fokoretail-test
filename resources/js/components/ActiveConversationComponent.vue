@@ -11,7 +11,9 @@
           <message-component 
             v-for="message in messages" 
             :key="message.id" 
-            :written-by-me="message.written_by_me">
+            :written-by-me="message.written_by_me"
+            :contactAvatar=contactAvatar
+            :myAvatar=myAvatar>
               {{ message.content }}
           </message-component>
         </b-card-body>
@@ -42,7 +44,7 @@
           value="accepted"
           unchecked-value="not_accepted"
           >
-          Desabled notifications
+          Disabled notifications
       </b-form-checkbox>
     </b-col>
   </b-row>
@@ -56,14 +58,16 @@
 <script>
     export default {
       props: {
+        userId: Number,
         contactId: Number,
         contactName: String,
         contactAvatar: String,
+        myAvatar: String,
         messages: Array,
       },
       data(){
         return {
-          newMessage: ''
+          newMessage: '',
         }
       },
       mounted() {
@@ -81,7 +85,7 @@
               this.newMessage = '';
               const message = response.data.message;
               message.written_by_me = true;
-              console.log(message);
+              
               this.$emit('messageCreated', message);
             }
           });

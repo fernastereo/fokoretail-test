@@ -21,8 +21,8 @@
 <script>
     export default {
         props: {
-            variant: String,
-            conversation: Object
+            conversation: Object,
+            selected: Boolean,
         },
         data(){
             return {
@@ -30,11 +30,14 @@
             }
         },
         mounted() {
-            console.log('ContactComponent mounted.')
+            
         },
         computed: {
             lastTime(){
                 return moment(this.conversation.last_time).fromNow();
+            },
+            variant(){
+                return this.selected ? 'secondary': '';
             }
         }
     }

@@ -17,6 +17,7 @@ class ConversationController extends Controller
         return Conversation::where('user_id', auth()->id())->get(
             [
                 'id',
+                'user_id',
                 'contact_id',
                 'has_blocked',
                 'allow_notifications',

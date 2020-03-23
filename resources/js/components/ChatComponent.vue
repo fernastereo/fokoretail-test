@@ -20,6 +20,7 @@
                 :contact-id="selectedConversation.contact_id"
                 :contact-name="selectedConversation.contact_name"
                 :contact-avatar="selectedConversation.contact_avatar"
+                :my-avatar="myAvatar"
                 :messages="messages"
                 @messageCreated="addMessage($event)">
               </active-conversation-component>
@@ -36,6 +37,7 @@
     data() {
       return {
         selectedConversation: null,
+        myAvatar: '',
         messages: [],
         conversations: [],
         querySearch: ''
@@ -47,8 +49,6 @@
       //Channel for each user:
       Echo.private(`users.${this.userId}`)
         .listen('MessageSent', (data) => {
-            console.log(message);
-
             const message = data.message;
             message.written_by_me = false;
             this.addMessage(message);
@@ -66,15 +66,21 @@
         });
     },
     methods: {
+      getUser(){
+        axios.get(`/api/profile/${this.selectedConversation.user_id}`).then((response) => {
+          this.myAvatar = response.data.avatar;
+        });
+      },
       changeConversation(conversation){
         this.selectedConversation = conversation;
+        this.getUser();
         this.getMessages();
       },
       getMessages(){
-          axios.get(`/api/messages?contact_id=${this.selectedConversation.contact_id}`).then((response) => {
-          console.log(response.data);
-          this.messages = response.data;
-        });
+          axios.get(`/api/messages?contact_id=${this.selectedConversation.contact_id}`)
+            .then((response) => {
+              this.messages = response.data;
+            });
       },
       addMessage(message){
         const conversation = this.conversations.find( (conversation) => {
