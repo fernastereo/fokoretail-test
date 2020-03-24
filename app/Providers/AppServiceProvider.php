@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Group;
 use App\Message;
+use App\Observers\GroupObserver;
 use App\Observers\MessageObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Message::observe(MessageObserver::class);
+        
     }
 }

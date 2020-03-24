@@ -37,3 +37,6 @@ Route::post('/api/messages', 'MessageController@store');
 Route::post('/api/invite', 'InvitationController@store');
 Route::get('/api/invitations/{user}', 'InvitationController@index');
 Route::put('/api/invitations/{invitation}/deny', 'InvitationController@update');
+
+Route::get('/api/groups', 'GroupController@index');
+Route::post('/api/groups', 'GroupController@store');

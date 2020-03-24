@@ -30,8 +30,11 @@
                         @contactsSelected="getContacts($event)"
                         :conversations="filteredConversations">
                       </contact-list-component>
+                      <div>
+                        <b-button variant="primary" @click="onCreateGroup">Submit</b-button>
+                      </div>
                       <div v-for="contact in contactsSelected" 
-                        :key="contact.id">
+                        :key="contact.id" class="contacts-selected">
                         <b-badge pill variant="primary">{{ contact.contact_name }}</b-badge> 
                       </div>
                     </b-modal>
@@ -47,10 +50,19 @@
                   </b-form>
                 </b-col>
               </b-row>
-              <contact-list-component class="h-50"
-                @conversationSelected="changeConversation($event)"
-                :conversations="filteredConversations">
-              </contact-list-component>
+              <b-tabs content-class="mt-3">
+                <b-tab title="Contacts" active>
+                  <contact-list-component class="h-50"
+                    @conversationSelected="changeConversation($event)"
+                    :conversations="filteredConversations">
+                  </contact-list-component>
+                </b-tab>
+                <b-tab title="Groups">
+                  <group-list-component class="h-50"
+                    :groups="filteredGroups">
+                  </group-list-component>
+                </b-tab>
+              </b-tabs>
               <hr>
               <invitations-component 
                 :user-id="this.user.id"
@@ -71,7 +83,11 @@
       </b-row>
   </b-container>
 </template>
-
+<style>
+  .contacts-selected{
+    display: inline;
+  }
+</style>
 <script>
   export default {
     props: {
@@ -80,16 +96,20 @@
     data() {
       return {
         selectedConversation: null,
+        selectedGroup: null,
         myAvatar: '',
         messages: [],
         conversations: [],
+        groups: [],
         querySearch: '',
         contactsSelected: [],
+        name: ''
       };
     },
     mounted(){
       this.getUser();
       this.getConversations();
+      this.getGroups();
       
       //Channel for each user:
       Echo.private(`users.${this.user.id}`)
@@ -97,6 +117,13 @@
             const message = data.message;
             message.written_by_me = false;
             this.addMessage(message);
+        });
+      Echo.private(`usersgroup.${this.user.id}`)
+        .listen('GroupCreated', (data) => {
+            // const message = data.message;
+            // message.written_by_me = false;
+            // this.addMessage(message);
+            //this.addGroup(data);
         });
       //Channel for get the presence of all users
       Echo.join('messenger')
@@ -117,7 +144,6 @@
         });
       },
       getContacts(contactSelected){
-        console.log('Desde chat component', contactSelected);
         this.contactsSelected = contactSelected;
       },
       changeConversation(conversation){
@@ -131,7 +157,11 @@
               this.messages = response.data;
             });
       },
+      addGroup(group){
+        console.log('from addgroup', group);
+      },
       addMessage(message){
+        
         const conversation = this.conversations.find( (conversation) => {
           return conversation.contact_id == message.sender_id || conversation.contact_id == message.receiver_id;
         });
@@ -149,7 +179,14 @@
       getConversations(){
         axios.get('/api/conversations')
           .then((response) => {
-            this.conversations = response.data;            
+            this.conversations = response.data;
+          }
+        );
+      },
+      getGroups(){
+        axios.get('/api/groups')
+          .then((response) => {
+            this.groups = response.data;
           }
         );
       },
@@ -160,11 +197,30 @@
         if (index >= 0) {
           this.$set(this.conversations[index], 'online', status);          
         }
+      },
+      onCreateGroup(){
+        const params = {
+            'name':this.name,
+            'users':this.contactsSelected,
+        };
+        
+        axios.post('/api/groups/', params)
+          .then((response) => {
+            if (response.data.success) {
+              this.showDismissibleAlert = true;
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
       }
     },
     computed: {
       filteredConversations(){
         return this.conversations.filter((conversation) => conversation.contact_name.toLowerCase().includes(this.querySearch.toLowerCase()));
+      },
+      filteredGroups(){
+        return this.groups.filter((group) => group.name.toLowerCase().includes(this.querySearch.toLowerCase()));
       }
     }
   }
