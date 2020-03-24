@@ -15,7 +15,7 @@ class InvitationController extends Controller
      */
     public function index(User $user)
     {
-        $invitations = Invitation::where('contact_id', $user->id)->get();
+        $invitations = Invitation::where('contact_id', $user->id)->where('viewed', false)->get();
         return $invitations;
     }
 

@@ -13,7 +13,9 @@
                 @conversationSelected="changeConversation($event)"
                 :conversations="filteredConversations">
               </contact-list-component>
-              <invitations-component :user-id="this.userId"></invitations-component>
+              <invitations-component 
+                :user-id="this.userId"
+                @conversationCreated="getConversations()"></invitations-component>
           </b-col>
           <b-col cols="8">
               <active-conversation-component

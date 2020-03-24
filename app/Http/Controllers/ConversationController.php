@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Invitation;
 use App\Conversation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ConversationController extends Controller
 {
@@ -35,7 +37,33 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [];
+        DB::beginTransaction();
+        try{
+            Conversation::insert([
+                'user_id' => $request->user_id,
+                'contact_id' => $request->contact_id,
+            ]);
+            Conversation::insert([
+                'user_id' => $request->contact_id,
+                'contact_id' => $request->user_id,
+            ]);
+
+            $invitation = Invitation::findOrFail($request->invitation_id);
+            if($invitation){
+                $invitation->viewed = true;
+                $invitation->save();
+            }
+            
+            DB::commit();
+            $data['success'] = 'success';
+        
+        }catch(\Exception $e){
+            DB::rollback();
+            $data['error'] = 'warning,Something Went Wrong!';
+        }   
+
+        return $data;
     }
 
     /**
