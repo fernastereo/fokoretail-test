@@ -33,6 +33,7 @@ Vue.component('profile-component', require('./components/ProfileComponent.vue').
 Vue.component('invitation-form-component', require('./components/InvitationFormComponent.vue').default);
 Vue.component('invitations-component', require('./components/InvitationsComponent.vue').default);
 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

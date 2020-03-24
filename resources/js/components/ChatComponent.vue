@@ -12,7 +12,30 @@
                       </profile-component>
                     </b-modal>
                   </b-button>
-                  <b-button variant="link" class="p-0" v-b-tooltip.hover title="Create a group"><b-img rounded="circle" src="/storage/users/grupo.jpg" width="50" height="50" blank-color="#777" alt="img" class="m-1" style="border: 1px solid black;"></b-img></b-button>
+                  <b-button variant="link" class="p-0" v-b-modal.modal-group v-b-tooltip.hover title="Create a group">
+                    <b-img rounded="circle" src="/storage/users/grupo.jpg" width="50" height="50" blank-color="#777" alt="img" class="m-1" style="border: 1px solid black;"></b-img>
+
+                    <b-modal id="modal-group" title="Create a Chat Group">
+                      <b-form>
+                        <b-form-group label="Group:">
+                          <b-form-input
+                            name="name"
+                            v-model="name"
+                            required
+                            placeholder="Enter name"
+                          ></b-form-input>
+                        </b-form-group>
+                      </b-form>
+                      <contact-list-component
+                        @contactsSelected="getContacts($event)"
+                        :conversations="filteredConversations">
+                      </contact-list-component>
+                      <div v-for="contact in contactsSelected" 
+                        :key="contact.id">
+                        <b-badge pill variant="primary">{{ contact.contact_name }}</b-badge> 
+                      </div>
+                    </b-modal>
+                  </b-button>
                 </b-col>
                 <b-col class="pl-0">
                   <b-form class="my-3 mx-2">
@@ -60,7 +83,8 @@
         myAvatar: '',
         messages: [],
         conversations: [],
-        querySearch: ''
+        querySearch: '',
+        contactsSelected: [],
       };
     },
     mounted(){
@@ -91,6 +115,10 @@
         axios.get(`/api/profile/${this.user.id}`).then((response) => {
           this.myAvatar = response.data.avatar;
         });
+      },
+      getContacts(contactSelected){
+        console.log('Desde chat component', contactSelected);
+        this.contactsSelected = contactSelected;
       },
       changeConversation(conversation){
         this.selectedConversation = conversation;

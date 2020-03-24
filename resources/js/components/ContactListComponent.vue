@@ -25,6 +25,7 @@
       data(){
         return {
           selectedConversationId: null,
+          contacts: [],
         }
       },
       mounted() {
@@ -32,6 +33,8 @@
       },
       methods: {
         selectConversation(conversation){
+          this.contacts.push(conversation)
+          this.$emit('contactsSelected', this.contacts);
           this.selectedConversationId = conversation.id;
           this.$emit('conversationSelected', conversation);
         }
