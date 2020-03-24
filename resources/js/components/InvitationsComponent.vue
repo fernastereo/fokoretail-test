@@ -1,7 +1,26 @@
 <template>
   <div class="table-scroll">
     <b-table striped hover :items="invitations" :fields="fields" small caption-top class="mb-0">
-      <template v-slot:table-caption>Received Invitations <b-badge variant="warning">{{ invitations.length }} New</b-badge></template>
+      
+      <template v-slot:table-caption>
+        <b-row>
+          <b-col cols="7">
+            <p>Received Invitations <b-badge variant="warning">{{ invitations.length }} New</b-badge></p>
+          </b-col>
+          <b-col>
+            <div>
+              <b-button size="sm" variant="primary" v-b-modal.modal-1>Invite a Friend</b-button>
+
+              <b-modal id="modal-1" title="Invite a Friend">
+                <invitation-form-component :user="userId"></invitation-form-component>
+              </b-modal>
+            </div>
+          </b-col>
+        </b-row>
+      </template>
+
+        
+      
       <template v-slot:cell(actions)="row">
         <b-button size="sm" variant="primary" @click="accept(row.item, row.index, $event.target)" class="mr-1">
           Accept
@@ -20,6 +39,7 @@
   .table-scroll{
     max-height: 200px;
     overflow-y: scroll;
+    overflow-x: hidden;
   }
 </style>
 <script>

@@ -19,11 +19,6 @@ class InvitationController extends Controller
         return $invitations;
     }
 
-    public function invite()
-    {
-        return view('invitations.invite');
-    }
-
     /**
      * Store a newly created resource in storage.
      *

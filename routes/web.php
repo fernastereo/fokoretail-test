@@ -22,7 +22,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', 'UserController@edit')->name('profile.edit');
-Route::get('/invite', 'InvitationController@invite')->name('invitation.invite');
+
 
 
 Route::put('/api/profile/{user}', 'UserController@update');
