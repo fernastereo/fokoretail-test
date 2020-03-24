@@ -54,6 +54,9 @@
         showDismissibleAlert: false,
       }
     },
+    mounted(){
+      
+    },
     methods: {
       onImageChange(e){
         let files = e.target.files || e.dataTransfer.files;

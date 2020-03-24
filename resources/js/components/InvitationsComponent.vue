@@ -12,7 +12,9 @@
               <b-button size="sm" variant="primary" v-b-modal.modal-1>Invite a Friend</b-button>
 
               <b-modal id="modal-1" title="Invite a Friend">
-                <invitation-form-component :user="userId"></invitation-form-component>
+                <invitation-form-component 
+                  @invitationCreated="getInvitations()">
+                </invitation-form-component>
               </b-modal>
             </div>
           </b-col>
@@ -66,7 +68,6 @@
         axios.get(`/api/invitations/${this.userId}`)
             .then((response) => {
               this.invitations = response.data;
-              console.log(this.invitations);
             });
       },
       accept(item, index, button) {

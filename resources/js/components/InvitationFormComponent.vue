@@ -23,9 +23,6 @@
 
 <script>
   export default {
-    props: {
-      user: Object,
-    },
     data() {
       return {
         email: '',
@@ -43,7 +40,6 @@
         axios.post('/api/invite/', params)
           .then((response) => {
             if (response.data.success) {
-              console.log(response.data.success);
               this.showDismissibleAlert = true;
               this.alertmsg = response.data.successmsg;
               this.alert = "success";

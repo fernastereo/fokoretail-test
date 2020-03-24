@@ -28,7 +28,7 @@
         }
       },
       mounted() {
-          console.log('ContactListComponent mounted.')
+
       },
       methods: {
         selectConversation(conversation){
