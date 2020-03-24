@@ -30,7 +30,8 @@ Vue.component('active-conversation-component', require('./components/ActiveConve
 Vue.component('message-component', require('./components/MessageComponent.vue').default);
 Vue.component('status-component', require('./components/StatusComponent.vue').default);
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
-Vue.component('invitation-component', require('./components/InvitationComponent.vue').default);
+Vue.component('invitation-form-component', require('./components/InvitationFormComponent.vue').default);
+Vue.component('invitations-component', require('./components/InvitationsComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

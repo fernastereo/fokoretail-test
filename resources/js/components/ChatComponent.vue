@@ -9,10 +9,11 @@
                     placeholder="Search contact..."
                 ></b-form-input>
               </b-form>
-              <contact-list-component 
+              <contact-list-component class="h-50"
                 @conversationSelected="changeConversation($event)"
                 :conversations="filteredConversations">
               </contact-list-component>
+              <invitations-component :user-id="this.userId"></invitations-component>
           </b-col>
           <b-col cols="8">
               <active-conversation-component

@@ -74,15 +74,4 @@ class UserController extends Controller
         $data['profile'] = $user;
         return $data;
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function invite()
-    {
-        return view('users.invite');
-    }
 }
