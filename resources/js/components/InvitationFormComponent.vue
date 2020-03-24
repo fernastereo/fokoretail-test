@@ -3,7 +3,7 @@
   <b-row no-gutters class="h-100">
     <b-col></b-col>
     <b-col cols="8">
-      <b-alert variant="success" :show="showDismissibleAlert">Invitation sent</b-alert>
+      <b-alert :variant="alert" :show="showDismissibleAlert">{{ alertmsg }}</b-alert>
       <b-form>
         <b-form-group label="Your friend's Email address:">
           <b-form-input
@@ -30,6 +30,8 @@
       return {
         email: '',
         showDismissibleAlert: false,
+        alert: 'success',
+        alertmsg: ''
       }
     },
     methods: {
@@ -43,6 +45,14 @@
             if (response.data.success) {
               console.log(response.data.success);
               this.showDismissibleAlert = true;
+              this.alertmsg = response.data.successmsg;
+              this.alert = "success";
+            }else{
+              if (response.data.error) {
+                this.showDismissibleAlert = true;
+                this.alertmsg = response.data.error;
+                this.alert = "danger";
+              }
             }
         })
         .catch(function (error) {

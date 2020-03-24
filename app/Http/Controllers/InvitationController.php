@@ -33,6 +33,12 @@ class InvitationController extends Controller
     public function store(Request $request)
     {
         $email = $request->email;
+        
+        if ($email == auth()->user()->email) {
+            $data['error'] = "Can't send self invitations";
+            return $data;
+        }
+
         $user = User::firstWhere('email', $email);
         $data = [];
         
@@ -45,7 +51,10 @@ class InvitationController extends Controller
             $saved = $invitation->save();            
 
             $data['success'] = $saved;
+            $data['successmsg'] = 'Invitation sent.';
             $data['invitation'] = $invitation;
+        }else{
+            $data['error'] = "User not found";
         }
 
         return $data;
