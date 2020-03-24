@@ -36,3 +36,4 @@ Route::post('/api/messages', 'MessageController@store');
 
 Route::post('/api/invite', 'InvitationController@store');
 Route::get('/api/invitations/{user}', 'InvitationController@index');
+Route::put('/api/invitations/{invitation}/deny', 'InvitationController@update');

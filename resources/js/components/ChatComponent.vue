@@ -13,6 +13,7 @@
                 @conversationSelected="changeConversation($event)"
                 :conversations="filteredConversations">
               </contact-list-component>
+              <hr>
               <invitations-component 
                 :user-id="this.userId"
                 @conversationCreated="getConversations()"></invitations-component>

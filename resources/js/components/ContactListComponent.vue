@@ -1,5 +1,5 @@
 <template>
-  <b-list-group>
+  <b-list-group class="list-scroll">
     <contact-component 
       v-for="conversation in conversations" 
       :key="conversation.id"
@@ -9,7 +9,14 @@
     </contact-component>
   </b-list-group>
 </template>
-
+<style>
+  .list-scroll{
+    max-height: 280px;
+    overflow-y: scroll;
+    margin-bottom: 30px;
+    overflow-x: hidden;
+  }
+</style>
 <script>
     export default {
       props:{
