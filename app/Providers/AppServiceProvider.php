@@ -28,6 +28,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Message::observe(MessageObserver::class);
-        
     }
 }
