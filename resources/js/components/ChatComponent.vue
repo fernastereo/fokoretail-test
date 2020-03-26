@@ -13,7 +13,7 @@
                     </b-modal>
                   </b-button>
                   <b-button variant="link" class="p-0" v-b-modal.modal-group v-b-tooltip.hover title="Create a group">
-                    <b-img rounded="circle" src="/storage/users/grupo.jpg" width="50" height="50" blank-color="#777" alt="img" class="m-1" style="border: 1px solid black;"></b-img>
+                    <b-img rounded="circle" src="/storage/users/grupo.jpg" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
 
                     <b-modal id="modal-group" title="Create a Chat Group">
                       <b-form>
@@ -50,19 +50,10 @@
                   </b-form>
                 </b-col>
               </b-row>
-              <b-tabs content-class="mt-3">
-                <b-tab title="Contacts" active>
-                  <contact-list-component class="h-50"
-                    @conversationSelected="changeConversation($event)"
-                    :conversations="filteredConversations">
-                  </contact-list-component>
-                </b-tab>
-                <b-tab title="Groups">
-                  <group-list-component class="h-50"
-                    :groups="filteredGroups">
-                  </group-list-component>
-                </b-tab>
-              </b-tabs>
+              <contact-list-component class="h-50"
+                @conversationSelected="changeConversation($event)"
+                :conversations="filteredConversations">
+              </contact-list-component>
               <hr>
               <invitations-component 
                 :user-id="this.user.id"
