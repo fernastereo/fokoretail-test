@@ -37,7 +37,7 @@ class MessageSent implements ShouldBroadcast
         $channels = [];
         
         foreach ($this->message->conversation->users as $user) {
-            array_push($channels, new PrivateChannel('user.' . $user->user_id));
+            array_push($channels, new PrivateChannel('users.' . $user->user_id));
         }
         
         return $channels;
