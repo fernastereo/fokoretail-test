@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupusersTable extends Migration
+class CreateConversationUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateGroupusersTable extends Migration
      */
     public function up()
     {
-        Schema::create('groupusers', function (Blueprint $table) {
+        Schema::create('conversation_user', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('conversation_id');
             $table->unsignedBigInteger('user_id');
-            $table->timestamps();
+
+            $table->foreign('conversation_id')->references('id')->on('conversations');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('group_id')->references('id')->on('groups');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +31,6 @@ class CreateGroupusersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groupusers');
+        Schema::dropIfExists('conversation_user');
     }
 }

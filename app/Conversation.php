@@ -16,7 +16,11 @@ class Conversation extends Model
         return $this->contact()->first(['avatar'])->avatar;
     }
 
-    public function contact(){
-        return $this->belongsTo(User::class);
+    public function users(){
+    	return $this->belongsToMany(User::class);
+    }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
     }
 }

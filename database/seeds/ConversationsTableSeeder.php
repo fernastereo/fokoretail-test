@@ -1,7 +1,9 @@
 <?php
 
+use App\User;
 use App\Conversation;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ConversationsTableSeeder extends Seeder
 {
@@ -12,40 +14,41 @@ class ConversationsTableSeeder extends Seeder
      */
     public function run()
     {
+        $user = User::findOrFail(2);
         Conversation::create(
             [
-                'user_id' => 1,
-                'contact_id' => 2,
+                'name' => $user->name,
                 'last_message' => null,
                 'last_time' => null,
             ]
         );
 
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 1,
+            'user_id'   => 1,
+        ]);
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 1,
+            'user_id'   => 2,
+        ]);
+
+        $user = User::findOrFail(3);
         Conversation::create(
             [
-                'user_id' => 2,
-                'contact_id' => 1,
+                'name' => $user->name,
                 'last_message' => null,
                 'last_time' => null,
             ]
         );
 
-        Conversation::create(
-            [
-                'user_id' => 1,
-                'contact_id' => 3,
-                'last_message' => null,
-                'last_time' => null,
-            ]
-        );
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 2,
+            'user_id'   => 1,
+        ]);
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 2,
+            'user_id'   => 3,
+        ]);
 
-        Conversation::create(
-            [
-                'user_id' => 3,
-                'contact_id' => 1,
-                'last_message' => null,
-                'last_time' => null,
-            ]
-        );
     }
 }

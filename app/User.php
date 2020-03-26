@@ -42,7 +42,11 @@ class User extends Authenticatable
     }
 
     public function conversations(){
-        return $this->hasMany(Conversation::class);
+        return $this->belongsToMany(Conversation::class);
+    }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
     }
 
     public function invitations(){

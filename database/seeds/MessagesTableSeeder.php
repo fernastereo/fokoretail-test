@@ -13,23 +13,25 @@ class MessagesTableSeeder extends Seeder
     public function run()
     {
         Message::create([
-            'sender_id' => 1,
-            'receiver_id' => 2,
+            'user_id' => 1,
+            'conversation_id' => 1,
             'content' => 'Hola Como estas?',
         ]);
         Message::create([
-            'sender_id' => 2,
-            'receiver_id' => 1,
+            'user_id' => 2,
+            'conversation_id' => 1,
             'content' => 'Aqui bien y tu?',
         ]);
+
+
         Message::create([
-            'sender_id' => 3,
-            'receiver_id' => 1,
+            'user_id' => 3,
+            'conversation_id' => 2,
             'content' => 'Todo bien y tu?',
         ]);
         Message::create([
-            'sender_id' => 1,
-            'receiver_id' => 3,
+            'user_id' => 1,
+            'conversation_id' => 2,
             'content' => 'Como va la vaina?',
         ]);
     }
