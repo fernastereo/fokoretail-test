@@ -37,9 +37,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute($value){
-        return '/storage/users/' . $value;
-    }
+    // public function getAvatarAttribute($value){
+    //     return '/storage/users/' . $value;
+    // }
 
     public function conversations(){
         return $this->belongsToMany(Conversation::class);

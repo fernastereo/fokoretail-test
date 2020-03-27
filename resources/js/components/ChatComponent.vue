@@ -63,9 +63,9 @@
           <b-col cols="8">
               <active-conversation-component
                 v-if="selectedConversation"
-                :contact-id="selectedConversation.contact_id"
-                :contact-name="selectedConversation.contact_name"
-                :contact-avatar="selectedConversation.contact_avatar"
+                :contact-users="selectedConversation.users"
+                :contact-name="selectedConversation.name"
+                :contact-avatar="selectedConversation.avatar"
                 :my-avatar="myAvatar"
                 :messages="messages"
                 @messageCreated="addMessage($event)">
@@ -130,7 +130,6 @@
       },
       changeConversation(conversation){
         this.selectedConversation = conversation;
-        
         this.getMessages();
       },
       getMessages(){
@@ -159,13 +158,12 @@
         axios.get(`/api/users/${this.user.id}/conversations`)
           .then((response) => {
             this.conversations = response.data;
-            console.log('getConversations' ,this.conversations);
           }
         );
       },
       changeStatus(user, status){
         const index = this.conversations.findIndex((conversation) => {
-          return conversation.contact_id == user.id;
+          return conversation.users.includes(user.id);
         });
         if (index >= 0) {
           this.$set(this.conversations[index], 'online', status);          

@@ -16,7 +16,7 @@ class CreateConversationsTable extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('avatar')->default('default.png');
+            $table->string('avatar')->default('/storage/users/grupo.jpg');
             $table->text('last_message')->nullable();
             $table->dateTime('last_time')->nullable();
             $table->boolean('allow_notifications')->default(true);
