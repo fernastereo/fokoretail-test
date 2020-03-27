@@ -32,8 +32,6 @@ Vue.component('status-component', require('./components/StatusComponent.vue').de
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 Vue.component('invitation-form-component', require('./components/InvitationFormComponent.vue').default);
 Vue.component('invitations-component', require('./components/InvitationsComponent.vue').default);
-Vue.component('group-component', require('./components/GroupComponent.vue').default);
-Vue.component('group-list-component', require('./components/GroupListComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

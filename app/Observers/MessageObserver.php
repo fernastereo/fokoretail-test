@@ -23,7 +23,7 @@ class MessageObserver
             $conversation->save();
         }
 
-        event(new MessageSent($message));
+        event(new MessageSent($conversation));
     }
 
     /**

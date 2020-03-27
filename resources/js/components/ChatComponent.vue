@@ -31,7 +31,7 @@
                         :conversations="filteredConversations">
                       </contact-list-component>
                       <div>
-                        <b-button variant="primary" @click="onCreateGroup">Submit</b-button>
+                        <b-button variant="primary">Submit</b-button> <!-- @click="onCreateGroup" -->
                       </div>
                       <div v-for="contact in contactsSelected" 
                         :key="contact.id" class="contacts-selected">
@@ -87,16 +87,16 @@
     data() {
       return {
         selectedConversation: null,
-        myAvatar: '',
+        myAvatar: this.user.avatar,
         messages: [],
         conversations: [],
         querySearch: '',
         contactsSelected: [],
+        contact: [],
         name: ''
       };
     },
     mounted(){
-      this.getUser();
       this.getConversations();
       
       //Channel for each user:
@@ -119,9 +119,10 @@
         });
     },
     methods: {
-      getUser(){
-        axios.get(`/api/profile/${this.user.id}`).then((response) => {
-          this.myAvatar = response.data.avatar;
+      getUser(id){
+        axios.get(`/api/profile/${id}`).then((response) => {
+          this.contact = response.data;
+          console.log('getUSer', this.contact);
         });
       },
       getContacts(contactSelected){
@@ -155,9 +156,10 @@
         }
       },
       getConversations(){
-        axios.get('/api/conversations')
+        axios.get(`/api/users/${this.user.id}/conversations`)
           .then((response) => {
             this.conversations = response.data;
+            console.log('getConversations' ,this.conversations);
           }
         );
       },
@@ -172,7 +174,7 @@
     },
     computed: {
       filteredConversations(){
-        return this.conversations.filter((conversation) => conversation.contact_name.toLowerCase().includes(this.querySearch.toLowerCase()));
+        return this.conversations.filter((conversation) => conversation.name.toLowerCase().includes(this.querySearch.toLowerCase()));
       },
     }
   }

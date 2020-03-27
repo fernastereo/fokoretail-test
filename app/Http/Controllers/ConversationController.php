@@ -10,26 +10,6 @@ use Illuminate\Support\Facades\DB;
 class ConversationController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return Conversation::where('user_id', auth()->id())->get(
-            [
-                'id',
-                'user_id',
-                'contact_id',
-                'has_blocked',
-                'allow_notifications',
-                'last_message',
-                'last_time'
-            ]
-        );
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

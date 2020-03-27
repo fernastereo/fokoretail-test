@@ -19,11 +19,11 @@ class MessageSent implements ShouldBroadcast
      *
      * @return void
      */
-    public $message;
+    public $conversation;
 
-    public function __construct($message)
+    public function __construct($conversation)
     {
-        $this->message = $message;
+        $this->conversation = $conversation;
     }
 
     /**
@@ -36,7 +36,7 @@ class MessageSent implements ShouldBroadcast
 //        return new PrivateChannel('users.' . $this->message->receiver_id);
         $channels = [];
         
-        foreach ($this->message->conversation->users as $user) {
+        foreach ($this->conversation->users as $user) {
             array_push($channels, new PrivateChannel('users.' . $user->user_id));
         }
         

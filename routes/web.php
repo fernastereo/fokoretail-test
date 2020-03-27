@@ -28,7 +28,6 @@ Route::get('/profile', 'UserController@edit')->name('profile.edit');
 Route::put('/api/profile/{user}', 'UserController@update');
 Route::get('/api/profile/{user}', 'UserController@show')->name('profile.show');
 
-Route::get('/api/conversations', 'ConversationController@index');
 Route::post('/api/conversations', 'ConversationController@store');
 
 Route::get('/api/messages/{user}', 'MessageController@index');
@@ -38,5 +37,5 @@ Route::post('/api/invite', 'InvitationController@store');
 Route::get('/api/invitations/{user}', 'InvitationController@index');
 Route::put('/api/invitations/{invitation}/deny', 'InvitationController@update');
 
-Route::get('/api/groups', 'GroupController@index');
-Route::post('/api/groups', 'GroupController@store');
+Route::get('/api/conversations/{conversation}/users', 'ConversationUserController@index');
+Route::get('/api/users/{user}/conversations', 'UserConversationController@index');

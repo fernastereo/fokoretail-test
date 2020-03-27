@@ -14,10 +14,10 @@ class ConversationsTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::findOrFail(2);
+        
         Conversation::create(
             [
-                'name' => $user->name,
+                'name' => null,
                 'last_message' => null,
                 'last_time' => null,
             ]
@@ -32,10 +32,10 @@ class ConversationsTableSeeder extends Seeder
             'user_id'   => 2,
         ]);
 
-        $user = User::findOrFail(3);
+
         Conversation::create(
             [
-                'name' => $user->name,
+                'name' => null,
                 'last_message' => null,
                 'last_time' => null,
             ]
@@ -48,6 +48,31 @@ class ConversationsTableSeeder extends Seeder
         DB::table('conversation_user')->insert([
             'conversation_id'   => 2,
             'user_id'   => 3,
+        ]);
+
+        Conversation::create(
+            [
+                'name' => 'Grupo de la empresa',
+                'last_message' => null,
+                'last_time' => null,
+            ]
+        );
+
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 3,
+            'user_id'   => 1,
+        ]);
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 3,
+            'user_id'   => 2,
+        ]);
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 3,
+            'user_id'   => 3,
+        ]);
+        DB::table('conversation_user')->insert([
+            'conversation_id'   => 3,
+            'user_id'   => 4,
         ]);
 
     }

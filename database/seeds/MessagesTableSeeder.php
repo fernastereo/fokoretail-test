@@ -34,5 +34,16 @@ class MessagesTableSeeder extends Seeder
             'conversation_id' => 2,
             'content' => 'Como va la vaina?',
         ]);
+
+        Message::create([
+            'user_id' => 1,
+            'conversation_id' => 3,
+            'content' => 'Hola a todos compañeros',
+        ]);
+        Message::create([
+            'user_id' => 2,
+            'conversation_id' => 3,
+            'content' => 'Para que es el grupo',
+        ]);
     }
 }
