@@ -63,7 +63,7 @@
           <b-col cols="8">
               <active-conversation-component
                 v-if="selectedConversation"
-                :contact-users="selectedConversation.users"
+                :conversation-id="selectedConversation.id"
                 :contact-name="selectedConversation.name"
                 :contact-avatar="selectedConversation.avatar"
                 :my-avatar="myAvatar"
@@ -133,7 +133,7 @@
         this.getMessages();
       },
       getMessages(){
-          axios.get(`/api/messages/${this.selectedConversation.contact_id}`)
+          axios.get(`/api/messages/${this.selectedConversation.id}`)
             .then((response) => {
               this.messages = response.data;
             });

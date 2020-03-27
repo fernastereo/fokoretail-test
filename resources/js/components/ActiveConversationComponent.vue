@@ -58,8 +58,7 @@
 <script>
     export default {
       props: {
-        userId: Number,
-        contactId: Number,
+        conversationId: Number,
         contactName: String,
         contactAvatar: String,
         myAvatar: String,
@@ -76,7 +75,7 @@
       methods: {
         postMessage(){
           const params = {
-            'receiver_id': this.contactId,
+            'conversation_id': this.conversationId,
             'content': this.newMessage
           };
           axios.post('/api/messages', params)

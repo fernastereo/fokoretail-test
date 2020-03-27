@@ -30,7 +30,7 @@ Route::get('/api/profile/{user}', 'UserController@show')->name('profile.show');
 
 Route::post('/api/conversations', 'ConversationController@store');
 
-Route::get('/api/messages/{user}', 'MessageController@index');
+Route::get('/api/messages/{conversation}', 'MessageController@index');
 Route::post('/api/messages', 'MessageController@store');
 
 Route::post('/api/invite', 'InvitationController@store');
