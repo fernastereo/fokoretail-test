@@ -12,8 +12,8 @@ class Conversation extends Model
     //     return $this->contact()->first(['name'])->name;
     // }
     
-    // public function getContactAvatarAttribute(){
-    //     return $this->contact()->first(['avatar'])->avatar;
+    // public function getAvatarAttribute($value){
+    //     return '/storage/users/' . $value;
     // }
 
     public function users(){

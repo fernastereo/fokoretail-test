@@ -15,12 +15,14 @@ class UserConversationController extends Controller
      */
     public function index(User $user)
     {
+        $public_path = '/storage/users/';
         $conversation_prev = $user->conversations->pluck('id');
         
         $conversations = DB::table('conversations')
         ->join('conversation_user', 'conversations.id', '=', 'conversation_user.conversation_id')
         ->join('users', 'users.id', '=', 'conversation_user.user_id')
-        ->select('conversations.id', DB::raw("IF(conversations.name IS NULL, users.name, conversations.name) as name"))
+        ->select('conversations.id', DB::raw("IF(conversations.name IS NULL, users.name, conversations.name) as name"), 
+                DB::raw("IF(conversations.name IS NULL, users.avatar, conversations.avatar) as avatar"), 'conversations.last_message', 'conversations.last_time')
         ->whereIn('conversations.id', $conversation_prev)
         ->where('conversation_user.user_id', '<>', $user->id)
         ->distinct()
