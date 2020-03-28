@@ -1,6 +1,6 @@
 # API for a chat system
 
-In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](https://pusher.com/) for developing the API and [VueJS](https://vuejs.org/) for the frontend in an approach for an SPA. Instruction for run the app:
+In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](https://pusher.com/) for developing the API and [VueJS](https://vuejs.org/) for the frontend in an approach for an SPA. Instructions for run the app:
 
 1. Clone this repository
 2. Configure your environment variables for Pusher and Laravel by copying the `.env.example` to `.env`
@@ -26,10 +26,10 @@ In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](ht
 `/api/profile/{user}`
 
 
-#### Retrieve a list of stored  conversations
+#### Retrieve a list of stored conversations from the curren user
 `method: get`
 
-`/api/conversations`
+`/api/users/{user}/conversations`
 
 
 #### Create a new conversation
@@ -38,10 +38,10 @@ In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](ht
 `/api/conversations`
 
 
-#### Retrieves messages from one user
+#### Retrieves messages from one conversation
 `method: get`
 
-`/api/messages/{user}`
+`/api/messages/{conversation}`
 
 
 #### Store and Send message to one conversations
@@ -67,16 +67,5 @@ In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](ht
 
 `/api/invitations/{invitation}/deny`
 
-
-#### Retrieve a list of groups of conversation
-`method: get`
-
-`/api/groups`
-
-
-#### Create a group of conversation
-`method: post`
-
-`/api/groups`
 
 * Requires authentication. As of now, this can only be achieved by logging in manually on the website.
