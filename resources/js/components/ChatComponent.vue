@@ -102,9 +102,12 @@
       //Channel for each user:
       Echo.private(`users.${this.user.id}`)
         .listen('MessageSent', (data) => {
-            const message = data.message;
-            message.written_by_me = false;
-            this.addMessage(message);
+            console.log('Canal', data);
+            if (data.message.user_id != this.user.id) {
+              const message = data.message;
+              message.written_by_me = false;
+              this.addMessage(message);
+            }
         });
       //Channel for get the presence of all users
       Echo.join('messenger')
@@ -122,7 +125,6 @@
       getUser(id){
         axios.get(`/api/profile/${id}`).then((response) => {
           this.contact = response.data;
-          console.log('getUSer', this.contact);
         });
       },
       getContacts(contactSelected){
@@ -139,18 +141,20 @@
             });
       },
       addMessage(message){
-        
         const conversation = this.conversations.find( (conversation) => {
-          return conversation.contact_id == message.sender_id || conversation.contact_id == message.receiver_id;
+          return conversation.id == message.conversation_id; // || conversation.contact_id == message.receiver_id;
         });
 
-        const author = this.user.id === message.sender_id ? 'You' : conversation.contact_name;
+        const author = this.user.id === message.user_id ? 'You' : conversation.name;
         
         conversation.last_message = `${author}: ${message.content}`;
         conversation.last_time = message.created_at;
 
-        if(this.selectedConversation.contact_id == message.sender_id 
-          || this.selectedConversation.contact_id == message.receiver_id){
+        // if(this.selectedConversation.contact_id == message.sender_id 
+        //   || this.selectedConversation.contact_id == message.receiver_id){
+        //     this.messages.push(message);
+        // }
+        if(this.selectedConversation.id == message.conversation_id) {
             this.messages.push(message);
         }
       },

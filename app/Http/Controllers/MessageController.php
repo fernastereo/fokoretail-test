@@ -34,14 +34,15 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $message = new Message();
-        $message->sender_id = auth()->id();
-        $message->receiver_id = $request->receiver_id;
+        $message->user_id = auth()->id();
+        $message->conversation_id = $request->conversation_id;
         $message->content = $request->content;
         $saved = $message->save();
 
         $data = [];
         $data['success'] = $saved;
         $data['message'] = $message;
+    
         return $data;
     }
 

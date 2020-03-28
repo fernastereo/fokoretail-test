@@ -78,6 +78,7 @@
             'conversation_id': this.conversationId,
             'content': this.newMessage
           };
+          
           axios.post('/api/messages', params)
           .then((response) => {
             if(response.data.success){
