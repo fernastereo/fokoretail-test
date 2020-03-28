@@ -20,13 +20,22 @@ class ConversationController extends Controller
         $data = [];
         DB::beginTransaction();
         try{
-            Conversation::insert([
-                'user_id' => $request->user_id,
-                'contact_id' => $request->contact_id,
+            // $id = DB::table('departamentos')
+            // ->insertGetId(['iddepartamento' => '05', 'nombre' => strToupper('Antioquia')]);
+
+            $id = Conversation::insertGetId([
+                'name' => null,
+                'last_message' => null,
+                'last_time' => null,
             ]);
-            Conversation::insert([
-                'user_id' => $request->contact_id,
-                'contact_id' => $request->user_id,
+
+            DB::table('conversation_user')->insert([
+                'conversation_id'   => $id,
+                'user_id'   => $request->user_id,
+            ]);
+            DB::table('conversation_user')->insert([
+                'conversation_id'   => $id,
+                'user_id'   => $request->contact_id,
             ]);
 
             $invitation = Invitation::findOrFail($request->invitation_id);
