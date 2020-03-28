@@ -20,30 +20,29 @@ class ConversationController extends Controller
         $data = [];
         DB::beginTransaction();
         try{
-            // $id = DB::table('departamentos')
-            // ->insertGetId(['iddepartamento' => '05', 'nombre' => strToupper('Antioquia')]);
-
             $id = Conversation::insertGetId([
-                'name' => null,
+                'name' => $request->has('name') ? $request->name : null,
                 'last_message' => null,
                 'last_time' => null,
             ]);
-
-            DB::table('conversation_user')->insert([
-                'conversation_id'   => $id,
-                'user_id'   => $request->user_id,
-            ]);
-            DB::table('conversation_user')->insert([
-                'conversation_id'   => $id,
-                'user_id'   => $request->contact_id,
-            ]);
-
-            $invitation = Invitation::findOrFail($request->invitation_id);
-            if($invitation){
-                $invitation->viewed = true;
-                $invitation->save();
-            }
             
+            $users = $request->users;
+            
+            foreach ($users as $user) {
+                DB::table('conversation_user')->insert([
+                    'conversation_id'   => $id,
+                    'user_id'   => $user['id'],
+                ]);
+            }
+
+            if ($request->invitation_id) {
+                $invitation = Invitation::findOrFail($request->invitation_id);
+                if($invitation){
+                    $invitation->viewed = true;
+                    $invitation->save();
+                }
+            }
+
             DB::commit();
             $data['success'] = 'success';
         

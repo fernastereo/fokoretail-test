@@ -15,7 +15,10 @@
                   <b-button variant="link" class="p-0" v-b-modal.modal-group v-b-tooltip.hover title="Create a group">
                     <b-img rounded="circle" src="/storage/users/grupo.jpg" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
 
-                    <b-modal id="modal-group" title="Create a Chat Group">
+                    <b-modal id="modal-group" title="Create a Chat Group" ok-only ok-variant="sm">
+                      <div slot="modal-title">
+                        Create a Chat Group <b-badge pill variant="primary">{{ contactsSelected.length }}</b-badge>
+                      </div>
                       <b-form>
                         <b-form-group label="Group:">
                           <b-form-input
@@ -28,14 +31,14 @@
                       </b-form>
                       <contact-list-component
                         @contactsSelected="getContacts($event)"
-                        :conversations="filteredConversations">
+                        :conversations="filteredConversationsForGroups">
                       </contact-list-component>
-                      <div>
-                        <b-button variant="primary">Submit</b-button> <!-- @click="onCreateGroup" -->
-                      </div>
                       <div v-for="contact in contactsSelected" 
                         :key="contact.id" class="contacts-selected">
-                        <b-badge pill variant="primary">{{ contact.contact_name }}</b-badge> 
+                        <b-badge pill variant="primary">{{ contact.name }}</b-badge>
+                      </div>
+                      <div slot="modal-ok">
+                        <b-button variant="primary" @click="onCreateGroup">Submit</b-button>
                       </div>
                     </b-modal>
                   </b-button>
@@ -127,7 +130,7 @@
         });
       },
       getContacts(contactSelected){
-        this.contactsSelected = contactSelected;
+          this.contactsSelected = contactSelected;        
       },
       changeConversation(conversation){
         this.selectedConversation = conversation;
@@ -168,10 +171,37 @@
           this.$set(this.conversations[index], 'online', status);          
         }
       },
+      onCreateGroup(){        
+        // const users1 = this.contactsSelected.map((elem) => elem.users[0]);
+
+        const users = [];
+        this.contactsSelected
+          .map((elem) => elem.users[0])
+          .forEach((elem) => users.push({id: elem}));
+        users.push({id: this.user.id});
+
+        const params = {
+            'name': this.name,
+            'users': users,
+        };
+
+        axios.post('/api/conversations', params)
+          .then((response) => {
+            if (response.data.success) {
+              this.getConversations();
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      }
     },
     computed: {
       filteredConversations(){
         return this.conversations.filter((conversation) => conversation.name.toLowerCase().includes(this.querySearch.toLowerCase()));
+      },
+      filteredConversationsForGroups(){
+        return this.conversations.filter((conversation) => conversation.users.length == 1);
       },
     }
   }

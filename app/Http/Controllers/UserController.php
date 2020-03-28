@@ -64,7 +64,7 @@ class UserController extends Controller
             $imageName = $user->id . '.' . $type;
             
             Storage::disk('local')->put($imageName, $data);
-            $user->avatar = $imageName;
+            $user->avatar = '/storage/users/' . $imageName;
         }
         $user->name = $request->input('name');
         $saved = $user->save();

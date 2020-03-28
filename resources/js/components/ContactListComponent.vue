@@ -33,7 +33,11 @@
       },
       methods: {
         selectConversation(conversation){
-          this.contacts.push(conversation)
+          if (this.contacts.length <= 9) {
+            if (!this.contacts.includes(conversation)) {
+              this.contacts.push(conversation);          
+            }
+          }
           this.$emit('contactsSelected', this.contacts);
           this.selectedConversationId = conversation.id;
           this.$emit('conversationSelected', conversation);

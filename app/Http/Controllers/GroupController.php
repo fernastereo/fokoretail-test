@@ -10,21 +10,6 @@ use Illuminate\Support\Facades\DB;
 class GroupController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $groups = DB::table('groups')
-            ->join('groupusers', 'groups.id', '=', 'groupusers.group_id')
-            ->where('groupusers.user_id', '=', auth()->id())
-            ->select('groups.id', 'groups.name')
-            ->get();
-        
-        return $groups;
-    }
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -71,11 +71,16 @@
             });
       },
       accept(item, index, button) {
+        const users = Array(
+          {id: item.user_id}, 
+          {id: item.contact_id}
+        );
+
         const params = {
             'invitation_id': item.id,
-            'user_id': item.user_id,
-            'contact_id': item.contact_id,
+            'users': users,
         };
+        
         axios.post('/api/conversations', params)
           .then((response) => {
             if (response.data.success) {
