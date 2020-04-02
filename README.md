@@ -12,6 +12,9 @@ In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](ht
 8. Optionally you can run the seeders for some data samples adding *--seed* to the above command.
 9. Run your local server with php artisan serve
 
+## You can watch the app live on: http://3.16.11.70/
+Just register and start to talk with friends.
+
 ## End Points
 
 #### Update profile user information
