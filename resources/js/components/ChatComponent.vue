@@ -13,7 +13,7 @@
                     </b-modal>
                   </b-button>
                   <b-button variant="link" class="p-0" v-b-modal.modal-group v-b-tooltip.hover title="Create a group">
-                    <b-img rounded="circle" src="/storage/users/grupo.jpg" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
+                    <b-img rounded="circle" src="/storage/users/grupo.JPG" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
 
                     <b-modal id="modal-group" title="Create a Chat Group" ok-only ok-variant="sm">
                       <div slot="modal-title">
