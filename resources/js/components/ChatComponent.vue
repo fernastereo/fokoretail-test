@@ -7,8 +7,9 @@
                   <b-button variant="link" class="p-0" v-b-modal.modal-profile v-b-tooltip.hover title="Profile">
                     <b-img rounded="circle" :src=myAvatar width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
 
-                    <b-modal id="modal-profile" title="Invite a Friend">
-                      <profile-component :user="user">
+                    <b-modal id="modal-profile" title="My Profile Settings" hide-footer>
+                      <profile-component 
+                        :user="user">
                       </profile-component>
                     </b-modal>
                   </b-button>
