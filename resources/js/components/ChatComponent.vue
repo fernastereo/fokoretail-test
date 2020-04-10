@@ -172,9 +172,7 @@
           this.$set(this.conversations[index], 'online', status);          
         }
       },
-      onCreateGroup(){        
-        // const users1 = this.contactsSelected.map((elem) => elem.users[0]);
-
+      onCreateGroup(){
         const users = [];
         this.contactsSelected
           .map((elem) => elem.users[0])
