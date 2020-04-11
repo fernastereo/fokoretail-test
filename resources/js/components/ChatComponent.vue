@@ -5,7 +5,7 @@
               <b-row>
                 <b-col cols="4" md="4" class="text-center mx-0">
                   <b-button variant="link" class="p-0" v-b-modal.modal-profile v-b-tooltip.hover title="Profile">
-                    <b-img rounded="circle" :src=myAvatar width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
+                    <b-img rounded="circle" :src="myAvatar" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
 
                     <b-modal id="modal-profile" title="My Profile Settings" hide-footer>
                       <profile-component 
@@ -57,9 +57,7 @@
           </b-col>
           <b-col cols="8">
               <active-conversation-component
-                v-if="selectedConversation"
-                :my-avatar="myAvatar"
-                @messageCreated="addMessage($event)">
+                v-if="selectedConversation">
               </active-conversation-component>
           </b-col>
       </b-row>
@@ -77,14 +75,15 @@
     },
     data() {
       return {
-        myAvatar: this.user.avatar,
         contactsSelected: [],
         contact: [],
         name: ''
       };
     },
+    beforeMount(){
+      this.$store.commit('activeUser', this.user);
+    },
     mounted(){
-      // this.$store.commit('activeUser', this.user);
       this.$store.dispatch('getConversations', this.user);
       
       //Channel for each user:
@@ -116,20 +115,6 @@
       },
       getContacts(contactSelected){
           this.contactsSelected = contactSelected;        
-      },
-      addMessage(message){
-        const conversation = this.$store.state.conversations.find( (conversation) => {
-          return conversation.id == message.conversation_id; 
-        });
-
-        const author = this.user.id === message.user_id ? 'You' : conversation.name;
-        
-        conversation.last_message = `${author}: ${message.content}`;
-        conversation.last_time = message.created_at;
-
-        if(this.selectedConversation.id == message.conversation_id) {
-            this.$store.commit('addMessage', message);
-        }
       },
       changeStatus(user, status){
         const index = this.$store.state.conversations.findIndex((conversation) => {
@@ -163,6 +148,9 @@
       }
     },
     computed: {
+      myAvatar() {
+        return this.$store.state.user.avatar;
+      },
       selectedConversation() {
         return  this.$store.state.selectedConversation;
       },

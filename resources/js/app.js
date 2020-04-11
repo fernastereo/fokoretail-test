@@ -43,21 +43,32 @@ Vue.component('invitations-component', require('./components/InvitationsComponen
 
 const store = new Vuex.Store({
     state: {
-        // user: null,
         messages: [],
         selectedConversation: null,
         conversations: [],
         querySearch: '',
+        user: null,
     },
     mutations: {
-        // activeUser(state, user){
-        //     state.user = user;
-        // },
+        activeUser(state, user){
+            state.user = user;
+        },
         newMessagesList(state, messages) {
             state.messages = messages;
         },
         addMessage(state, message) {
-            state.messages.push(message);
+            const conversation = state.conversations.find( (conversation) => {
+                return conversation.id == message.conversation_id; 
+            });
+    
+            const author = state.user.id === message.user_id ? 'You' : conversation.name;
+            
+            conversation.last_message = `${author}: ${message.content}`;
+            conversation.last_time = message.created_at;
+    
+            if(state.selectedConversation.id == message.conversation_id) {
+                state.messages.push(message);
+            }
         },
         conversationSelected(state, conversation){
             state.selectedConversation = conversation;
@@ -83,7 +94,23 @@ const store = new Vuex.Store({
                     context.commit('newConversationsList', response.data);
                 }
             );
-        },  
+        },
+        postMessage(context, newMessage) {
+            const params = {
+                'conversation_id': context.state.selectedConversation.id,
+                'content': newMessage
+            };
+            
+            axios.post('/api/messages', params)
+            .then((response) => {
+                if(response.data.success){
+                    const message = response.data.message;
+                    message.written_by_me = true;
+                
+                    context.commit('addMessage', message);
+                }
+            });
+        }
     },
     getters: {
         filteredConversations(state){

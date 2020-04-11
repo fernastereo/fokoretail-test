@@ -56,9 +56,6 @@
 </style>
 <script>
     export default {
-      props: {
-        myAvatar: String,
-      },
       data(){
         return {
           newMessage: '',
@@ -66,21 +63,8 @@
       },
       methods: {
         postMessage(){
-          const params = {
-            'conversation_id': this.selectedConversation.id,
-            'content': this.newMessage
-          };
-          
-          axios.post('/api/messages', params)
-          .then((response) => {
-            if(response.data.success){
-              this.newMessage = '';
-              const message = response.data.message;
-              message.written_by_me = true;
-              
-              this.$emit('messageCreated', message);
-            }
-          });
+          this.$store.dispatch('postMessage', this.newMessage);
+          this.newMessage = '';
         },
         scrollToBottom(){
           const el = document.querySelector('.card-body-scroll');
@@ -88,6 +72,9 @@
         }
       },
       computed:{
+        myAvatar() {
+          return this.$store.state.user.avatar;
+        },
         selectedConversation(){
           return this.$store.state.selectedConversation;
         },
