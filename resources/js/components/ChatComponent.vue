@@ -138,7 +138,7 @@
       getMessages(){
           axios.get(`/api/messages/${this.selectedConversation.id}`)
             .then((response) => {
-              this.$store.state.messages = response.data;
+              this.$store.commit('newMessagesList', response.data);
             });
       },
       addMessage(message){
@@ -152,7 +152,7 @@
         conversation.last_time = message.created_at;
 
         if(this.selectedConversation.id == message.conversation_id) {
-            this.$store.state.messages.push(message);
+            this.$store.commit('addMessage', message);
         }
       },
       getConversations(){

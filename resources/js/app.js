@@ -43,6 +43,14 @@ Vue.component('invitations-component', require('./components/InvitationsComponen
 const store = new Vuex.Store({
     state: {
         messages: []
+    },
+    mutations: {
+        newMessagesList(state, messages) {
+            state.messages = messages;
+        },
+        addMessage(state, message) {
+            state.messages.push(message);
+        }
     }
 });
 
