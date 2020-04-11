@@ -71,7 +71,6 @@
                 :contact-name="selectedConversation.name"
                 :contact-avatar="selectedConversation.avatar"
                 :my-avatar="myAvatar"
-                :messages="messages"
                 @messageCreated="addMessage($event)">
               </active-conversation-component>
           </b-col>
@@ -92,7 +91,6 @@
       return {
         selectedConversation: null,
         myAvatar: this.user.avatar,
-        messages: [],
         conversations: [],
         querySearch: '',
         contactsSelected: [],
@@ -140,7 +138,7 @@
       getMessages(){
           axios.get(`/api/messages/${this.selectedConversation.id}`)
             .then((response) => {
-              this.messages = response.data;
+              this.$store.state.messages = response.data;
             });
       },
       addMessage(message){
@@ -154,7 +152,7 @@
         conversation.last_time = message.created_at;
 
         if(this.selectedConversation.id == message.conversation_id) {
-            this.messages.push(message);
+            this.$store.state.messages.push(message);
         }
       },
       getConversations(){

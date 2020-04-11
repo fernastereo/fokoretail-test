@@ -6,11 +6,12 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-
-
+import Vue from 'vue';
+import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
+
 Vue.use(BootstrapVue);
+Vue.use(Vuex);
 
 /**
  * The following block of code may be used to automatically register your
@@ -39,8 +40,15 @@ Vue.component('invitations-component', require('./components/InvitationsComponen
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+const store = new Vuex.Store({
+    state: {
+        messages: []
+    }
+});
+
 const app = new Vue({
     el: '#app',
+    store,
     methods: {
         logout() {
             document.getElementById('logout-form').submit();

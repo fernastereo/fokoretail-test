@@ -62,7 +62,6 @@
         contactName: String,
         contactAvatar: String,
         myAvatar: String,
-        messages: Array,
       },
       data(){
         return {
@@ -93,6 +92,11 @@
         scrollToBottom(){
           const el = document.querySelector('.card-body-scroll');
           el.scrollTop = el.scrollHeight;
+        }
+      },
+      computed:{
+        messages() {
+          return this.$store.state.messages;
         }
       },
       updated() {
