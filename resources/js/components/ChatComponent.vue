@@ -30,14 +30,14 @@
                           ></b-form-input>
                         </b-form-group>
                       </b-form>
-                      <contact-list-component
+                      <!-- <contact-list-component
                         @contactsSelected="getContacts($event)"
                         :conversations="filteredConversationsForGroups">
                       </contact-list-component>
                       <div v-for="contact in contactsSelected" 
                         :key="contact.id" class="contacts-selected">
                         <b-badge pill variant="primary">{{ contact.name }}</b-badge>
-                      </div>
+                      </div> -->
                       <div slot="modal-ok">
                         <b-button variant="primary" @click="onCreateGroup">Submit</b-button>
                       </div>
@@ -45,18 +45,10 @@
                   </b-button>
                 </b-col>
                 <b-col class="pl-0">
-                  <b-form class="my-3 mx-2">
-                    <b-form-input class="text-center"
-                        type="text"
-                        v-model="querySearch" 
-                        placeholder="Search contact..."
-                    ></b-form-input>
-                  </b-form>
+                  <contact-form-component></contact-form-component>
                 </b-col>
               </b-row>
-              <contact-list-component class="h-50"
-                :conversations="filteredConversations">
-              </contact-list-component>
+              <contact-list-component class="h-50" />
               <hr>
               <invitations-component 
                 :user-id="this.user.id"
@@ -66,9 +58,6 @@
           <b-col cols="8">
               <active-conversation-component
                 v-if="selectedConversation"
-                :conversation-id="selectedConversation.id"
-                :contact-name="selectedConversation.name"
-                :contact-avatar="selectedConversation.avatar"
                 :my-avatar="myAvatar"
                 @messageCreated="addMessage($event)">
               </active-conversation-component>
@@ -89,15 +78,14 @@
     data() {
       return {
         myAvatar: this.user.avatar,
-        conversations: [],
-        querySearch: '',
         contactsSelected: [],
         contact: [],
         name: ''
       };
     },
     mounted(){
-      this.getConversations();
+      // this.$store.commit('activeUser', this.user);
+      this.$store.dispatch('getConversations', this.user);
       
       //Channel for each user:
       Echo.private(`users.${this.user.id}`)
@@ -130,7 +118,7 @@
           this.contactsSelected = contactSelected;        
       },
       addMessage(message){
-        const conversation = this.conversations.find( (conversation) => {
+        const conversation = this.$store.state.conversations.find( (conversation) => {
           return conversation.id == message.conversation_id; 
         });
 
@@ -143,19 +131,12 @@
             this.$store.commit('addMessage', message);
         }
       },
-      getConversations(){
-        axios.get(`/api/users/${this.user.id}/conversations`)
-          .then((response) => {
-            this.conversations = response.data;
-          }
-        );
-      },
       changeStatus(user, status){
-        const index = this.conversations.findIndex((conversation) => {
+        const index = this.$store.state.conversations.findIndex((conversation) => {
           return conversation.users.includes(user.id);
         });
         if (index >= 0) {
-          this.$set(this.conversations[index], 'online', status);          
+          this.$set(this.$store.state.conversations[index], 'online', status);          
         }
       },
       onCreateGroup(){
@@ -184,12 +165,6 @@
     computed: {
       selectedConversation() {
         return  this.$store.state.selectedConversation;
-      },
-      filteredConversations(){
-        return this.conversations.filter((conversation) => conversation.name.toLowerCase().includes(this.querySearch.toLowerCase()));
-      },
-      filteredConversationsForGroups(){
-        return this.conversations.filter((conversation) => conversation.users.length == 1);
       },
     }
   }

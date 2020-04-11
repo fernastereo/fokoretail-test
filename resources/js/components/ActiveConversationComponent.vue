@@ -4,7 +4,6 @@
       <b-card no-body
         footer-bg-variant="light"
         footer-border-variant="dark"
-        title="Active Conversation"
         class="h-100"
         footer-class="p-1">
         <b-card-body class="card-body-scroll">
@@ -12,7 +11,7 @@
             v-for="message in messages" 
             :key="message.id" 
             :written-by-me="message.written_by_me"
-            :contactAvatar=contactAvatar
+            :contactAvatar=selectedConversation.avatar
             :myAvatar=myAvatar>
               {{ message.content }}
           </message-component>
@@ -35,8 +34,8 @@
     </b-col>
 
     <b-col cols="4" class="text-center">
-      <b-img rounded="circle" :src=contactAvatar width="120" height="120" blank-color="#777" alt="img" class="m-1"></b-img>
-      <p>{{ contactName }}</p>
+      <b-img rounded="circle" :src="selectedConversation.avatar" width="120" height="120" blank-color="#777" alt="img" class="m-1"></b-img>
+      <p>{{ selectedConversation.name }}</p>
       <hr>
       <b-form-checkbox
           id="checkbox-1"
@@ -58,9 +57,6 @@
 <script>
     export default {
       props: {
-        conversationId: Number,
-        contactName: String,
-        contactAvatar: String,
         myAvatar: String,
       },
       data(){
@@ -68,13 +64,10 @@
           newMessage: '',
         }
       },
-      mounted() {
-
-      },
       methods: {
         postMessage(){
           const params = {
-            'conversation_id': this.conversationId,
+            'conversation_id': this.selectedConversation.id,
             'content': this.newMessage
           };
           
@@ -95,6 +88,9 @@
         }
       },
       computed:{
+        selectedConversation(){
+          return this.$store.state.selectedConversation;
+        },
         messages() {
           return this.$store.state.messages;
         }

@@ -26,6 +26,7 @@ Vue.use(Vuex);
 
 Vue.component('chat-component', require('./components/ChatComponent.vue').default);
 Vue.component('contact-component', require('./components/ContactComponent.vue').default);
+Vue.component('contact-form-component', require('./components/ContactFormComponent.vue').default);
 Vue.component('contact-list-component', require('./components/ContactListComponent.vue').default);
 Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue').default);
 Vue.component('message-component', require('./components/MessageComponent.vue').default);
@@ -42,10 +43,16 @@ Vue.component('invitations-component', require('./components/InvitationsComponen
 
 const store = new Vuex.Store({
     state: {
+        // user: null,
         messages: [],
-        selectedConversation: null
+        selectedConversation: null,
+        conversations: [],
+        querySearch: '',
     },
     mutations: {
+        // activeUser(state, user){
+        //     state.user = user;
+        // },
         newMessagesList(state, messages) {
             state.messages = messages;
         },
@@ -54,7 +61,13 @@ const store = new Vuex.Store({
         },
         conversationSelected(state, conversation){
             state.selectedConversation = conversation;
-        }
+        },
+        newQuerySearch(state, newValue){
+            state.querySearch = newValue;
+        },
+        newConversationsList(state, conversations) {
+            state.conversations = conversations;
+        },
     },
     actions: {
         getMessages(context, conversation){
@@ -63,7 +76,22 @@ const store = new Vuex.Store({
                     context.commit('conversationSelected', conversation);
                     context.commit('newMessagesList', response.data);
             });
-        },    
+        },  
+        getConversations(context, user){
+            axios.get(`/api/users/${user.id}/conversations`)
+                .then((response) => {
+                    context.commit('newConversationsList', response.data);
+                }
+            );
+        },  
+    },
+    getters: {
+        filteredConversations(state){
+            return state.conversations.filter((conversation) => conversation.name.toLowerCase().includes(state.querySearch.toLowerCase()));
+        },
+        filteredConversationsForGroups(state){
+            return state.conversations.filter((conversation) => conversation.users.length == 1);
+        },      
     }
 });
 
