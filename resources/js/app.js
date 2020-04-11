@@ -42,7 +42,8 @@ Vue.component('invitations-component', require('./components/InvitationsComponen
 
 const store = new Vuex.Store({
     state: {
-        messages: []
+        messages: [],
+        selectedConversation: null
     },
     mutations: {
         newMessagesList(state, messages) {
@@ -50,7 +51,19 @@ const store = new Vuex.Store({
         },
         addMessage(state, message) {
             state.messages.push(message);
+        },
+        conversationSelected(state, conversation){
+            state.selectedConversation = conversation;
         }
+    },
+    actions: {
+        getMessages(context, conversation){
+            axios.get(`/api/messages/${conversation.id}`)
+                .then((response) => {
+                    context.commit('conversationSelected', conversation);
+                    context.commit('newMessagesList', response.data);
+            });
+        },    
     }
 });
 

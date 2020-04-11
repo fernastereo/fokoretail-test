@@ -4,7 +4,7 @@
       v-for="conversation in conversations" 
       :key="conversation.id"
       :conversation="conversation"
-      :selected="selectedConversationId === conversation.id"
+      :selected="isSelected(conversation)"
       @click.native="selectConversation(conversation)">
     </contact-component>
   </b-list-group>
@@ -24,12 +24,8 @@
       },
       data(){
         return {
-          selectedConversationId: null,
           contacts: [],
         }
-      },
-      mounted() {
-
       },
       methods: {
         selectConversation(conversation){
@@ -39,8 +35,19 @@
             }
           }
           this.$emit('contactsSelected', this.contacts);
-          this.selectedConversationId = conversation.id;
-          this.$emit('conversationSelected', conversation);
+          
+          this.$store.dispatch('getMessages', conversation);
+        },
+        isSelected(conversation) {
+          if(this.selectedConversation){
+            return this.selectedConversation.id === conversation.id;
+          }
+          return false;
+        }
+      },
+      computed: {
+        selectedConversation() {
+          return this.$store.state.selectedConversation;
         }
       }
     }

@@ -55,7 +55,6 @@
                 </b-col>
               </b-row>
               <contact-list-component class="h-50"
-                @conversationSelected="changeConversation($event)"
                 :conversations="filteredConversations">
               </contact-list-component>
               <hr>
@@ -89,7 +88,6 @@
     },
     data() {
       return {
-        selectedConversation: null,
         myAvatar: this.user.avatar,
         conversations: [],
         querySearch: '',
@@ -130,16 +128,6 @@
       },
       getContacts(contactSelected){
           this.contactsSelected = contactSelected;        
-      },
-      changeConversation(conversation){
-        this.selectedConversation = conversation;
-        this.getMessages();
-      },
-      getMessages(){
-          axios.get(`/api/messages/${this.selectedConversation.id}`)
-            .then((response) => {
-              this.$store.commit('newMessagesList', response.data);
-            });
       },
       addMessage(message){
         const conversation = this.conversations.find( (conversation) => {
@@ -194,6 +182,9 @@
       }
     },
     computed: {
+      selectedConversation() {
+        return  this.$store.state.selectedConversation;
+      },
       filteredConversations(){
         return this.conversations.filter((conversation) => conversation.name.toLowerCase().includes(this.querySearch.toLowerCase()));
       },
