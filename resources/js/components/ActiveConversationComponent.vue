@@ -12,6 +12,7 @@
             :key="message.id" 
             :written-by-me="message.written_by_me"
             :contactAvatar=selectedConversation.avatar
+            :createdAt="message.created_at"
             :myAvatar=myAvatar>
               {{ message.content }}
           </message-component>

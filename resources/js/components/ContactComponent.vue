@@ -9,7 +9,7 @@
                     <status-component :online="conversation.online"></status-component>
                     {{ conversation.name }}
                 </p>
-                <p class="text-muted small mb-0">{{ conversation.last_message }}</p>
+                <p class="text-muted small mb-0">{{ lastMessage }}</p>
             </b-col>
             <b-col cols="3" class="d-none d-md-block">
                 <p class="text-muted small mt-1">{{ lastTime }}</p>
@@ -33,6 +33,9 @@
             
         },
         computed: {
+            lastMessage(){
+                return this.conversation.last_message != null ? this.conversation.last_message.substring(0, 20) + '...' : '';
+            },
             lastTime(){
                 return moment(this.conversation.last_time).fromNow();
             },
