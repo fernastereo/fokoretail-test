@@ -92,7 +92,7 @@
           if (data.message.user_id != this.user.id) {
             const message = data.message;
             message.written_by_me = false;
-            this.addMessage(message);
+            this.$store.commit('addMessage', message);
           }
         });
       //Channel for get the presence of all users

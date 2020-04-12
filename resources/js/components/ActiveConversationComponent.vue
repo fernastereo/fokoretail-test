@@ -61,6 +61,9 @@
           newMessage: '',
         }
       },
+      mounted() {
+        this.scrollToBottom();
+      },
       methods: {
         postMessage(){
           this.$store.dispatch('postMessage', this.newMessage);
