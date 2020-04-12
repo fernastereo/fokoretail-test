@@ -10,7 +10,7 @@
   </b-list-group>
 </template>
 <style>
-  .list-scroll{
+  .list-scroll {
     max-height: 280px;
     overflow-y: scroll;
     margin-bottom: 30px;
@@ -18,37 +18,25 @@
   }
 </style>
 <script>
-    export default {
-      data(){
-        return {
-          contacts: [],
-        }
+  export default {
+    methods: {
+      selectConversation(conversation){
+        this.$store.dispatch('getMessages', conversation);
       },
-      methods: {
-        selectConversation(conversation){
-          if (this.contacts.length <= 9) {
-            if (!this.contacts.includes(conversation)) {
-              this.contacts.push(conversation);          
-            }
-          }
-          this.$emit('contactsSelected', this.contacts);
-          
-          this.$store.dispatch('getMessages', conversation);
-        },
-        isSelected(conversation) {
-          if(this.selectedConversation){
-            return this.selectedConversation.id === conversation.id;
-          }
-          return false;
+      isSelected(conversation) {
+        if(this.selectedConversation){
+          return this.selectedConversation.id === conversation.id;
         }
+        return false;
+      }
+    },
+    computed: {
+      selectedConversation() {
+        return this.$store.state.selectedConversation;
       },
-      computed: {
-        selectedConversation() {
-          return this.$store.state.selectedConversation;
-        },
-        filteredConversations() {
-          return this.$store.getters.filteredConversations;
-        }
+      filteredConversations() {
+        return this.$store.getters.filteredConversations;
       }
     }
+  }
 </script>
