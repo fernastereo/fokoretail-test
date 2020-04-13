@@ -43,13 +43,10 @@
 
 <script>
   export default {
-    props: {
-      user: Object,
-    },
     data() {
       return {
-        name: this.user.name,
-        email: this.user.email,
+        name: this.$store.state.user.name,
+        email: this.$store.state.user.email,
         avatar: null,
         showDismissibleAlert: false,
       }
@@ -73,15 +70,17 @@
       },
       onUpdate(){        
         const params = {
+            'id':this.$store.state.user.id,
             'name':this.name,
             'email':this.email,
             'avatar':this.avatar,
         };
         
-        axios.put(`/api/profile/${this.user.id}`, params)
+        axios.put(`/api/profile/${this.$store.state.user.id}`, params)
           .then((response) => {
             if (response.data.success) {
               this.showDismissibleAlert = true;
+              this.$store.commit('activeUser', params);
             }
         })
         .catch(function (error) {
