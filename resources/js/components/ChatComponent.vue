@@ -58,15 +58,6 @@
     mounted(){
       this.$store.dispatch('getConversations', this.user);
       
-      //Channel for each user:
-      Echo.private(`users.${this.user.id}`)
-        .listen('MessageSent', (data) => {
-          if (data.message.user_id != this.user.id) {
-            const message = data.message;
-            message.written_by_me = false;
-            this.$store.commit('addMessage', message);
-          }
-        });
       //Channel for get the presence of all users
       Echo.join('messenger')
         .here((users) => {

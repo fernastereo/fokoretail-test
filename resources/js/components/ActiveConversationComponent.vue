@@ -16,6 +16,7 @@
             :myAvatar=myAvatar>
               {{ message.content }}
           </message-component>
+          <small class="mb-1 mr-1 font-italic"><b-badge pill variant="info">{{typing}}</b-badge></small>
         </b-card-body>
         <div slot="footer">
           <b-form class="m-0" @submit.prevent="postMessage" autocomplete="off">
@@ -60,10 +61,35 @@
       data(){
         return {
           newMessage: '',
+          typing: ''
         }
       },
       mounted() {
         this.scrollToBottom();
+
+        Echo.private(`users.${this.$store.state.user.id}`)
+          .listen('MessageSent', (data) => {
+            console.log('message sent channel: users.', this.$store.state.user.id)
+            if (data.message.user_id != this.$store.state.user.id) {
+              const message = data.message;
+              message.written_by_me = false;
+              this.$store.commit('addMessage', message);
+            }
+          });
+        
+        Echo.private('chat')
+          .listenForWhisper('typing', (data) => {
+            //if I'm talkin with whom is writing and who is writing is writing to me
+            if (this.selectedConversation.users.includes(data.userFrom.id) && data.usersTo.includes(this.$store.state.user.id)) {
+              if(data.currentMessage != ''){
+                this.typing = `${data.userFrom.name} is Typing...`;
+              }else{
+                this.typing = '';
+              };
+            } else {
+              this.typing = '';
+            }
+          });
       },
       methods: {
         postMessage(){
@@ -89,6 +115,17 @@
       updated() {
         //for watching messages variable, everytime it changes we're gonna call scrollToBottom
         this.scrollToBottom();
+      },
+      watch: {
+        newMessage(){
+          console.log(this.selectedConversation.users);
+          Echo.private('chat')
+            .whisper('typing', {
+              userFrom: this.$store.state.user,
+              usersTo: this.selectedConversation.users,
+              currentMessage: this.newMessage,
+            });
+        }
       }
     }
 </script>
