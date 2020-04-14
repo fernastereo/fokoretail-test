@@ -109,6 +109,7 @@
           return this.$store.state.selectedConversation;
         },
         messages() {
+          this.newMessage='';
           return this.$store.state.messages;
         }
       },
@@ -117,8 +118,7 @@
         this.scrollToBottom();
       },
       watch: {
-        newMessage(){
-          console.log(this.selectedConversation.users);
+        newMessage(){     
           Echo.private('chat')
             .whisper('typing', {
               userFrom: this.$store.state.user,
