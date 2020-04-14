@@ -62,11 +62,14 @@
       Echo.join('messenger')
         .here((users) => {
           users.forEach((user) => this.changeStatus(user, true));
+          // console.log(users);
         })
         .joining((user) => {
+          this.$toaster.success(`${user.name} has joined the room`);
           this.changeStatus(user, true);
         })
         .leaving((user) => {
+          this.$toaster.error(`${user.name} has left the room`);
           this.changeStatus(user, false);
         });
     },

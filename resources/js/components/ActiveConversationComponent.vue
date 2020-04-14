@@ -69,7 +69,6 @@
 
         Echo.private(`users.${this.$store.state.user.id}`)
           .listen('MessageSent', (data) => {
-            console.log('message sent channel: users.', this.$store.state.user.id)
             if (data.message.user_id != this.$store.state.user.id) {
               const message = data.message;
               message.written_by_me = false;
