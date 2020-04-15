@@ -72,7 +72,6 @@
           .then((response) => {
             if (response.data.success) {
               this.invitations.splice(index, 1);
-              this.$store.dispatch('getConversations', this.$store.state.user);
             }
         })
         .catch(function (error) {

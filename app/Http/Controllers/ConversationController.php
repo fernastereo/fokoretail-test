@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Invitation;
 use App\Conversation;
 use Illuminate\Http\Request;
+use App\Events\InvitationAccepted;
 use Illuminate\Support\Facades\DB;
 
 class ConversationController extends Controller
@@ -41,6 +42,7 @@ class ConversationController extends Controller
                     $invitation->viewed = true;
                     $invitation->save();
                 }
+                event(new InvitationAccepted($invitation));
             }
 
             DB::commit();

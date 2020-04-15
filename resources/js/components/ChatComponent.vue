@@ -57,12 +57,13 @@
       
       Echo.private(`users.${this.$store.state.user.id}`)
         .listen('InvitationSent', (data) => {
-          console.log('invitacion recibida de ', data.invitation.user_id);
           if (data.invitation.contact_id == this.$store.state.user.id) {
             this.$store.dispatch('getInvitations', this.$store.state.user);
           }
+        })
+        .listen('InvitationAccepted', (data) => {
+          this.$store.dispatch('getConversations', this.$store.state.user);
         });
-
       //Channel for get the presence of all users
       Echo.join('messenger')
         .here((users) => {
