@@ -5,7 +5,7 @@
       <template v-slot:table-caption>
         <b-row>
           <b-col cols="7">
-            <p>Received Invitations <b-badge variant="warning">{{ invitations.length }} New</b-badge></p>
+            <p>Received Invitations <b-badge variant="warning">{{ invitationsCount }} New</b-badge></p>
           </b-col>
           <b-col>
             <div>
@@ -20,9 +20,6 @@
           </b-col>
         </b-row>
       </template>
-
-        
-      
       <template v-slot:cell(actions)="row">
         <b-button size="sm" variant="primary" @click="accept(row.item, row.index, $event.target)" class="mr-1">
           Accept
@@ -46,13 +43,9 @@
 </style>
 <script>
   export default {
-    props:{
-      userId: Number
-    },
     data() {
       return {
         fields: ['user_name', 'actions'],
-        invitations: [],
         infoModal: {
           id: 'info-modal',
           title: '',
@@ -61,15 +54,9 @@
       }
     },
     mounted() {
-      this.getInvitations();
+      this.$store.dispatch('getInvitations', this.$store.state.user);
     },
     methods: {
-      getInvitations(){
-        axios.get(`/api/invitations/${this.userId}`)
-            .then((response) => {
-              this.invitations = response.data;
-            });
-      },
       accept(item, index, button) {
         const users = Array(
           {id: item.user_id}, 
@@ -85,7 +72,7 @@
           .then((response) => {
             if (response.data.success) {
               this.invitations.splice(index, 1);
-              this.$emit('conversationCreated');
+              this.$store.dispatch('getConversations', this.$store.state.user);
             }
         })
         .catch(function (error) {
@@ -113,6 +100,14 @@
         this.infoModal.title = ''
         this.infoModal.content = ''
       },
+    },
+    computed: {
+      invitations(){
+        return this.$store.state.invitations;
+      },
+      invitationsCount(){
+        return this.$store.state.invitations.length;
+      }
     }
   }
 </script>

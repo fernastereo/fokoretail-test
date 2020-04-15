@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Invitation;
 use Illuminate\Http\Request;
+use App\Events\InvitationSent;
 
 class InvitationController extends Controller
 {
@@ -48,6 +49,8 @@ class InvitationController extends Controller
             $data['success'] = $saved;
             $data['successmsg'] = 'Invitation sent.';
             $data['invitation'] = $invitation;
+            
+            event(new InvitationSent($invitation));
         }else{
             $data['error'] = "User not found";
         }

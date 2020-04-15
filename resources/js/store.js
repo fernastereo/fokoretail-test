@@ -11,6 +11,7 @@ export default new Vuex.Store({
         querySearch: '',
         user: null,
         contactsSelected: [],
+        invitations: [],
     },
     mutations: {
         activeUser(state, user){
@@ -45,6 +46,9 @@ export default new Vuex.Store({
         addContactsToGroup(state, contactSelected){
             state.contactsSelected = contactSelected;
         },
+        invitationsList(state, invitations){
+            state.invitations = invitations;
+        }
     },
     actions: {
         getMessages(context, conversation){
@@ -76,7 +80,13 @@ export default new Vuex.Store({
                     context.commit('addMessage', message);
                 }
             });
-        }
+        },
+        getInvitations(context, user){
+            axios.get(`/api/invitations/${user.id}`)
+            .then((response) => {
+                context.commit('invitationsList', response.data);
+            });
+        },
     },
     getters: {
         filteredConversations(state){

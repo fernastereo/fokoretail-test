@@ -24,10 +24,7 @@
               </b-row>
               <contact-list-component class="h-50" />
               <hr>
-              <invitations-component 
-                :user-id="this.user.id"
-                @conversationCreated="getConversations()">
-              </invitations-component>
+              <invitations-component></invitations-component>
           </b-col>
           <b-col cols="8">
               <active-conversation-component
@@ -58,6 +55,14 @@
     mounted(){
       this.$store.dispatch('getConversations', this.user);
       
+      Echo.private(`users.${this.$store.state.user.id}`)
+        .listen('InvitationSent', (data) => {
+          console.log('invitacion recibida de ', data.invitation.user_id);
+          if (data.invitation.contact_id == this.$store.state.user.id) {
+            this.$store.dispatch('getInvitations', this.$store.state.user);
+          }
+        });
+
       //Channel for get the presence of all users
       Echo.join('messenger')
         .here((users) => {
