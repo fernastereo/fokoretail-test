@@ -81,6 +81,7 @@
             if (response.data.success) {
               this.showDismissibleAlert = true;
               this.$store.commit('activeUser', params);
+              console.log(response.data.profile);
             }
         })
         .catch(function (error) {
