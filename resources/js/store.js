@@ -52,14 +52,14 @@ export default new Vuex.Store({
     },
     actions: {
         getMessages(context, conversation){
-            axios.get(`/api/messages/${conversation.id}`)
+            axios.get(`/messenger/api/messages/${conversation.id}`)
                 .then((response) => {
                     context.commit('conversationSelected', conversation);
                     context.commit('newMessagesList', response.data);
             });
         },  
         getConversations(context, user){
-            axios.get(`/api/users/${user.id}/conversations`)
+            axios.get(`/messenger/api/users/${user.id}/conversations`)
                 .then((response) => {
                     context.commit('newConversationsList', response.data);
                 }
@@ -71,7 +71,7 @@ export default new Vuex.Store({
                 'content': newMessage
             };
             
-            axios.post('/api/messages', params)
+            axios.post('/messenger/api/messages', params)
             .then((response) => {
                 if(response.data.success){
                     const message = response.data.message;
@@ -82,7 +82,7 @@ export default new Vuex.Store({
             });
         },
         getInvitations(context, user){
-            axios.get(`/api/invitations/${user.id}`)
+            axios.get(`/messenger/api/invitations/${user.id}`)
             .then((response) => {
                 context.commit('invitationsList', response.data);
             });
