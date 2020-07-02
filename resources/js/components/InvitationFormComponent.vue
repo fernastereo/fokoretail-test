@@ -37,7 +37,7 @@
             'email':this.email,
         };
         
-        axios.post('/api/invite/', params)
+        axios.post('/messenger/api/invite/', params)
           .then((response) => {
             if (response.data.success) {
               this.showDismissibleAlert = true;

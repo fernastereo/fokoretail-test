@@ -13,7 +13,7 @@
                   </b-button>
                   
                   <b-button variant="link" class="p-0" v-b-modal.modal-group v-b-tooltip.hover title="Create a group">
-                    <b-img rounded="circle" src="/storage/users/grupo.JPG" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
+                    <b-img rounded="circle" src="/messenger/storage/users/grupo.JPG" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
                     <create-group-component></create-group-component>
                   </b-button>
                   
@@ -81,7 +81,7 @@
     },
     methods: {
       getUser(id){
-        axios.get(`/api/profile/${id}`).then((response) => {
+        axios.get(`/messenger/api/profile/${id}`).then((response) => {
           this.contact = response.data;
         });
       },
@@ -96,7 +96,7 @@
     },
     computed: {
       myAvatar() {
-        return this.$store.state.user.avatar;
+        return '/messenger' + this.$store.state.user.avatar;
       },
       selectedConversation() {
         return  this.$store.state.selectedConversation;
