@@ -76,7 +76,7 @@
             'avatar':this.avatar,
         };
         
-        axios.put(`/messenger/api/profile/${this.$store.state.user.id}`, params)
+        axios.put(`/api/profile/${this.$store.state.user.id}`, params)
           .then((response) => {
             if (response.data.success) {
               this.showDismissibleAlert = true;

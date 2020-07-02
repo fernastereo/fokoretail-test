@@ -45,7 +45,7 @@
               'users': users,
           };
 
-          axios.post('/messenger/api/conversations', params)
+          axios.post('/api/conversations', params)
             .then((response) => {
               if (response.data.success) {
                 this.$store.dispatch('getConversations', this.$store.state.user);
