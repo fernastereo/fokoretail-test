@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -48,8 +49,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
-    {
-
+    {        
         $base64_image = $request->avatar;
         
         if (preg_match('/^data:image\/(\w+);base64,/', $base64_image)) {
@@ -61,13 +61,24 @@ class UserController extends Controller
             $mime_type = finfo_buffer($f, $data, FILEINFO_MIME_TYPE);
             $split = explode( '/', $mime_type );
             $type = $split[1]; 
-            $imageName = $user->id . '.' . $type;
+            $imageName = Str::random(15) . '.' . $type;
             
             Storage::disk('local')->put($imageName, $data);
             $user->avatar = '/storage/users/' . $imageName;
         }
         $user->name = $request->input('name');
         $saved = $user->save();
+
+        // $name = $request->has('name') ? $request->name : null;
+        // $avatar = $request->has('avatar') ? $request->file('avatar') : null;
+        
+        // $storagePath = Storage::disk('local')->put($avatar, 'public');        
+        // return $storagePath;
+        // //Guardo la url completa para acceder al archivo dentro del bucket en la variable $url
+        // $url = Storage::url($storagePath);
+        // $user->name = $name;
+        // $user->avatar = $url;
+        // $saved = $user->save();
 
         $data = [];
         $data['success'] = $saved;

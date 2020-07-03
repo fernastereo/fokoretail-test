@@ -23,7 +23,22 @@
             placeholder="Enter name"
           ></b-form-input>
         </b-form-group>
-        
+
+        <!--<div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01">Avatar</span>
+          </div>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" @change="selectFile" aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+          </div>
+        </div>
+         <div class="custom-file">
+          <input type="file" class="custom-file-input" id="files" ref="files" multiple :disabled="isBusy"
+              v-on:change="handleFileUploads()">
+          <label class="custom-file-label" for="customFile">Seleccione los anexos a enviar...</label>
+          
+        </div> -->
         <b-form-group label="Profile Image">
           <b-form-file
             name="avatar"
@@ -32,7 +47,6 @@
             drop-placeholder="Drop file here..."
           ></b-form-file>
         </b-form-group>
-
         <b-button variant="primary" @click="onUpdate">Submit</b-button>
       </b-form>
     </b-col>
@@ -55,6 +69,10 @@
       
     },
     methods: {
+      // selectFile(event) {
+      //   // `files` is always an array because the file input may be in multiple mode
+      //   this.avatar = event.target.files[0];
+      // },
       onImageChange(e){
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length)
@@ -75,12 +93,19 @@
             'email':this.email,
             'avatar':this.avatar,
         };
+        // const params = new FormData();
+        //   params.append('name', this.name);
+        //   params.append('avatar', this.avatar);
         
+        // // Para verificar si el formData si tiene algo
+        // for (var key of params.entries()) {
+        //   console.log(key[0] + ': ' + key[1])
+        // }
         axios.put(`/api/profile/${this.$store.state.user.id}`, params)
           .then((response) => {
             if (response.data.success) {
               this.showDismissibleAlert = true;
-              this.$store.commit('activeUser', params);
+              this.$store.commit('activeUser', response.data.profile);
               console.log(response.data.profile);
             }
         })
