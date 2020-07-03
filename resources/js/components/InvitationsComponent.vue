@@ -68,7 +68,7 @@
             'users': users,
         };
         
-        axios.post('/messenger/api/conversations', params)
+        axios.post('/api/conversations', params)
           .then((response) => {
             if (response.data.success) {
               this.invitations.splice(index, 1);
@@ -82,7 +82,7 @@
         this.$root.$emit('bv::show::modal', this.infoModal.id, button)
       },
       deny(item, index, button) {
-        axios.put(`/messenger/api/invitations/${item.id}/deny`)
+        axios.put(`/api/invitations/${item.id}/deny`)
           .then((response) => {
             if (response.data.success) {
               this.invitations.splice(index, 1);
