@@ -52,6 +52,8 @@ class UserController extends Controller
     {        
         $base64_image = $request->avatar;
         
+        /*Guardar en s3 en lugar del local storage*/
+        
         if (preg_match('/^data:image\/(\w+);base64,/', $base64_image)) {
             $data = substr($base64_image, strpos($base64_image, ',') + 1);
             
