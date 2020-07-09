@@ -25,7 +25,7 @@ Route::get('/profile', 'UserController@edit')->name('profile.edit');
 
 
 
-Route::put('/api/profile/{user}', 'UserController@update');
+Route::post('/api/profile', 'UserController@update');
 Route::get('/api/profile/{user}', 'UserController@show')->name('profile.show');
 
 Route::post('/api/conversations', 'ConversationController@store');

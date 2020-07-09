@@ -33,7 +33,7 @@
             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
           </div>
         </div>
-         <div class="custom-file">
+        <div class="custom-file">
           <input type="file" class="custom-file-input" id="files" ref="files" multiple :disabled="isBusy"
               v-on:change="handleFileUploads()">
           <label class="custom-file-label" for="customFile">Seleccione los anexos a enviar...</label>
@@ -69,44 +69,24 @@
       
     },
     methods: {
-      // selectFile(event) {
-      //   // `files` is always an array because the file input may be in multiple mode
-      //   this.avatar = event.target.files[0];
-      // },
       onImageChange(e){
-        let files = e.target.files || e.dataTransfer.files;
-        if (!files.length)
-          return;
-        this.createImage(files[0]);
-      },
-      createImage(file) {
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            this.avatar = e.target.result;
-        };
-        reader.readAsDataURL(file);
+        this.avatar = e.target.files[0];
       },
       onUpdate(){        
-        const params = {
-            'id':this.$store.state.user.id,
-            'name':this.name,
-            'email':this.email,
-            'avatar':this.avatar,
-        };
-        // const params = new FormData();
-        //   params.append('name', this.name);
-        //   params.append('avatar', this.avatar);
+        const params = new FormData();
+          params.append('name', this.name);
+          params.append('avatar', this.avatar);
         
         // // Para verificar si el formData si tiene algo
         // for (var key of params.entries()) {
         //   console.log(key[0] + ': ' + key[1])
         // }
-        axios.put(`/api/profile/${this.$store.state.user.id}`, params)
+        axios.post(`/api/profile`, params)
           .then((response) => {
+            console.log(response);
             if (response.data.success) {
               this.showDismissibleAlert = true;
               this.$store.commit('activeUser', response.data.profile);
-              console.log(response.data.profile);
             }
         })
         .catch(function (error) {
