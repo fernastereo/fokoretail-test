@@ -20,7 +20,7 @@ In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](ht
 8. Optionally you can run the seeders for some data samples adding _--seed_ to the above command.
 9. Run your local server with php artisan serve
 
-## You can watch the app live on: http://13.52.80.153/
+## You can watch the app live on: https://fernandocueto.com
 
 Just register and start to talk with friends.
 
