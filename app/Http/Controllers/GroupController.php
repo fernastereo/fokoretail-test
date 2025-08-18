@@ -21,18 +21,18 @@ class GroupController extends Controller
         DB::beginTransaction();
         try{
             $group = new Group();
-        
+
             $group->name = $request->name;
             $saved = $group->save();
 
-            
+
             DB::table('groupusers')->insert([
-                ['group_id' => $group->id, 'user_id' => auth()->user()->id]
+                ['group_id' => $group->id, 'user_id' => auth()->user()->id, 'is_group' => true]
             ]);
 
             $users = collect(request('users'));
-            
-            foreach ($users as $user) {                
+
+            foreach ($users as $user) {
                 DB::table('groupusers')->insert([
                     ['group_id' => $group->id, 'user_id' => $user['contact_id']],
                 ]);

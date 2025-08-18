@@ -1,7 +1,7 @@
 <template>
   <b-list-group class="list-scroll">
-    <contact-component 
-      v-for="conversation in filteredConversationsForGroups" 
+    <contact-component
+      v-for="conversation in filteredConversationsForGroups"
       :key="conversation.id"
       :conversation="conversation"
       :selected="isSelected(conversation)"
@@ -28,7 +28,7 @@
         selectConversation(conversation){
           if (this.contacts.length <= 9) {
             if (!this.contacts.includes(conversation)) {
-              this.contacts.push(conversation);          
+              this.contacts.push(conversation);
             }
           }
           this.$store.commit('addContactsToGroup', this.contacts);

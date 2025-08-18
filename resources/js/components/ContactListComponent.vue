@@ -1,7 +1,7 @@
 <template>
   <b-list-group class="list-scroll">
-    <contact-component 
-      v-for="conversation in filteredConversations" 
+    <contact-component
+      v-for="conversation in filteredConversations"
       :key="conversation.id"
       :conversation="conversation"
       :selected="isSelected(conversation)"

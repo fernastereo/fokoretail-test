@@ -16,11 +16,12 @@ class CreateConversationsTable extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('avatar')->default('/storage/users/grupo.jpg');
+            $table->string('avatar')->nullable();
             $table->text('last_message')->nullable();
             $table->dateTime('last_time')->nullable();
             $table->boolean('allow_notifications')->default(true);
             $table->boolean('has_blocked')->default(false);
+            $table->boolean('is_group')->default(false);
             $table->timestamps();
         });
     }

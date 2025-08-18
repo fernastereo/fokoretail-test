@@ -4,19 +4,19 @@
           <b-col cols="4">
               <b-row>
                 <b-col cols="4" md="4" class="text-center mx-0">
-                  
+
                   <b-button variant="link" class="p-0" v-b-modal.modal-profile v-b-tooltip.hover title="Profile">
                     <b-img rounded="circle" :src="myAvatar" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
                     <b-modal id="modal-profile" title="My Profile Settings" hide-footer>
                       <profile-component></profile-component>
                     </b-modal>
                   </b-button>
-                  
+
                   <b-button variant="link" class="p-0" v-b-modal.modal-group v-b-tooltip.hover title="Create a group">
-                    <b-img rounded="circle" src="/storage/users/grupo.JPG" width="50" height="50" blank-color="#777" alt="img" class="m-1"></b-img>
+                    <b-img rounded="circle" :src="defaultGroupImage" width="50" height="50" blank-color="#777" alt="Create Group" class="m-1"></b-img>
                     <create-group-component></create-group-component>
                   </b-button>
-                  
+
                 </b-col>
                 <b-col class="pl-0">
                   <contact-form-component></contact-form-component>
@@ -54,7 +54,7 @@
     },
     mounted(){
       this.$store.dispatch('getConversations', this.user);
-      
+
       Echo.private(`users.${this.$store.state.user.id}`)
         .listen('InvitationSent', (data) => {
           if (data.invitation.contact_id == this.$store.state.user.id) {
@@ -90,16 +90,19 @@
           return conversation.users.includes(user.id);
         });
         if (index >= 0) {
-          this.$set(this.$store.state.conversations[index], 'online', status);          
+          this.$set(this.$store.state.conversations[index], 'online', status);
         }
       },
     },
     computed: {
       myAvatar() {
-        return this.$store.state.user.avatar;
+        return this.$store.state.user.avatar ? this.$store.state.user.avatar : this.$store.state.defaultImagePath + 'default.png';
       },
       selectedConversation() {
         return this.$store.state.selectedConversation;
+      },
+      defaultGroupImage() {
+        return this.$store.state.defaultImagePath + 'grupo.jpg';
       },
     }
   }

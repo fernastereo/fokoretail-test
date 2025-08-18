@@ -1,6 +1,14 @@
 # API for a chat system
 
-In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](https://pusher.com/) for developing the API and [VueJS](https://vuejs.org/) for the frontend in an approach for an SPA. Instructions for run the app:
+In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](https://pusher.com/) for developing the API and [VueJS](https://vuejs.org/) for the frontend in an approach for an SPA. 
+
+## Requisitos previos
+- Node.js 16.1.0 (recomendado)
+- npm 7.11.2
+- PHP 7.3.21
+- Laravel 7.0
+
+## Instructions for run the app:
 
 1. Clone this repository
 2. Configure your environment variables for Pusher and Laravel by copying the `.env.example` to `.env`

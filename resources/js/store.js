@@ -8,92 +8,95 @@ export default new Vuex.Store({
         messages: [],
         selectedConversation: null,
         conversations: [],
-        querySearch: '',
+        querySearch: "",
         user: null,
         contactsSelected: [],
         invitations: [],
+        defaultImagePath: "https://foko-chat.s3.us-west-1.amazonaws.com/"
     },
     mutations: {
-        activeUser(state, user){
+        activeUser(state, user) {
             state.user = user;
         },
         newMessagesList(state, messages) {
             state.messages = messages;
         },
         addMessage(state, message) {
-            const conversation = state.conversations.find( (conversation) => {
-                return conversation.id == message.conversation_id; 
+            const conversation = state.conversations.find(conversation => {
+                return conversation.id == message.conversation_id;
             });
 
-            const author = state.user.id === message.user_id ? 'You' : conversation.name;
-            
+            const author =
+                state.user.id === message.user_id ? "You" : conversation.name;
+
             conversation.last_message = `${author}: ${message.content}`;
             conversation.last_time = message.created_at;
 
-            if(state.selectedConversation.id == message.conversation_id) {
+            if (state.selectedConversation.id == message.conversation_id) {
                 state.messages.push(message);
             }
         },
-        conversationSelected(state, conversation){
+        conversationSelected(state, conversation) {
             state.selectedConversation = conversation;
         },
-        newQuerySearch(state, newValue){
+        newQuerySearch(state, newValue) {
             state.querySearch = newValue;
         },
         newConversationsList(state, conversations) {
             state.conversations = conversations;
         },
-        addContactsToGroup(state, contactSelected){
+        addContactsToGroup(state, contactSelected) {
             state.contactsSelected = contactSelected;
         },
-        invitationsList(state, invitations){
+        invitationsList(state, invitations) {
             state.invitations = invitations;
         }
     },
     actions: {
-        getMessages(context, conversation){
-            axios.get(`/api/messages/${conversation.id}`)
-                .then((response) => {
-                    context.commit('conversationSelected', conversation);
-                    context.commit('newMessagesList', response.data);
+        getMessages(context, conversation) {
+            axios.get(`/api/messages/${conversation.id}`).then(response => {
+                context.commit("conversationSelected", conversation);
+                context.commit("newMessagesList", response.data);
             });
-        },  
-        getConversations(context, user){
-            axios.get(`/api/users/${user.id}/conversations`)
-                .then((response) => {
-                    context.commit('newConversationsList', response.data);
-                }
-            );
+        },
+        getConversations(context, user) {
+            axios.get(`/api/users/${user.id}/conversations`).then(response => {
+                context.commit("newConversationsList", response.data);
+            });
         },
         postMessage(context, newMessage) {
             const params = {
-                'conversation_id': context.state.selectedConversation.id,
-                'content': newMessage
+                conversation_id: context.state.selectedConversation.id,
+                content: newMessage
             };
-            
-            axios.post('/api/messages', params)
-            .then((response) => {
-                if(response.data.success){
+
+            axios.post("/api/messages", params).then(response => {
+                if (response.data.success) {
                     const message = response.data.message;
                     message.written_by_me = true;
-                
-                    context.commit('addMessage', message);
+
+                    context.commit("addMessage", message);
                 }
             });
         },
-        getInvitations(context, user){
-            axios.get(`/api/invitations/${user.id}`)
-            .then((response) => {
-                context.commit('invitationsList', response.data);
+        getInvitations(context, user) {
+            axios.get(`/api/invitations/${user.id}`).then(response => {
+                context.commit("invitationsList", response.data);
             });
-        },
+        }
     },
     getters: {
-        filteredConversations(state){
-            return state.conversations.filter((conversation) => conversation.name.toLowerCase().includes(state.querySearch.toLowerCase()));
+        filteredConversations(state) {
+            return state.conversations.filter(conversation =>
+                conversation.name
+                    .toLowerCase()
+                    .includes(state.querySearch.toLowerCase())
+            );
         },
-        filteredConversationsForGroups(state){
-            return state.conversations.filter((conversation) => conversation.users.length == 1);
-        },      
+        filteredConversationsForGroups(state) {
+            return state.conversations.filter(
+                conversation => conversation.users.length == 1
+            );
+        }
     }
 });

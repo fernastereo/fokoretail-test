@@ -6,6 +6,7 @@ use App\Group;
 use App\Message;
 use App\Observers\GroupObserver;
 use App\Observers\MessageObserver;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
         Message::observe(MessageObserver::class);
     }
 }

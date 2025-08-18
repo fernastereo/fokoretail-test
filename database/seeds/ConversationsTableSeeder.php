@@ -14,7 +14,7 @@ class ConversationsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
         Conversation::create(
             [
                 'name' => null,
@@ -53,6 +53,7 @@ class ConversationsTableSeeder extends Seeder
         Conversation::create(
             [
                 'name' => 'Grupo de la empresa',
+                'is_group' => true,
                 'last_message' => null,
                 'last_time' => null,
             ]

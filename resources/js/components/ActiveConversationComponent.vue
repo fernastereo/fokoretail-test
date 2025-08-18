@@ -7,11 +7,13 @@
         class="h-100"
         footer-class="p-1">
         <b-card-body class="card-body-scroll">
-          <message-component 
-            v-for="message in messages" 
-            :key="message.id" 
+          <message-component
+            v-for="message in messages"
+            :key="message.id"
+            :user_id="message.user_id"
+            :written_by="message.written_by"
             :written-by-me="message.written_by_me"
-            :contactAvatar=selectedConversation.avatar
+            :contactAvatar="message.avatar"
             :createdAt="message.created_at"
             :myAvatar=myAvatar>
               {{ message.content }}
@@ -36,16 +38,16 @@
     </b-col>
 
     <b-col cols="4" class="text-center">
-      <b-img rounded="circle" :src="selectedConversation.avatar" width="120" height="120" blank-color="#777" alt="img" class="m-1"></b-img>
+      <b-img rounded="circle" :src="avatarConversation" width="120" height="120" blank-color="#777" alt="img" class="m-1"></b-img>
       <p>{{ selectedConversation.name }}</p>
       <hr>
       <b-form-checkbox
-          id="checkbox-1"
-          name="checkbox-1"
-          value="accepted"
-          unchecked-value="not_accepted"
-          >
-          Disabled notifications
+        id="checkbox-1"
+        name="checkbox-1"
+        value="accepted"
+        unchecked-value="not_accepted"
+        >
+        Disabled notifications
       </b-form-checkbox>
     </b-col>
   </b-row>
@@ -75,7 +77,7 @@
               this.$store.commit('addMessage', message);
             }
           });
-        
+
         Echo.private('chat')
           .listenForWhisper('typing', (data) => {
             //if I'm talkin with whom is writing and who is writing is writing to me
@@ -102,14 +104,19 @@
       },
       computed:{
         myAvatar() {
-          return this.$store.state.user.avatar;
+            return this.$store.state.user.avatar ? this.$store.state.user.avatar : this.$store.state.defaultImagePath + 'default.png';
         },
         selectedConversation(){
-          return this.$store.state.selectedConversation;
+            return this.$store.state.selectedConversation;
+        },
+        avatarConversation() {
+            const defaultImage = this.$store.state.selectedConversation.is_group ? 'grupo.jpg' : 'default.png';
+
+            return this.$store.state.selectedConversation.avatar || this.$store.state.defaultImagePath + defaultImage;
         },
         messages() {
-          this.newMessage='';
-          return this.$store.state.messages;
+            this.newMessage='';
+            return this.$store.state.messages;
         }
       },
       updated() {
@@ -117,7 +124,7 @@
         this.scrollToBottom();
       },
       watch: {
-        newMessage(){     
+        newMessage(){
           Echo.private('chat')
             .whisper('typing', {
               userFrom: this.$store.state.user,

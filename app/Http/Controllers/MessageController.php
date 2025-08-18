@@ -18,11 +18,18 @@ class MessageController extends Controller
     {
         $user_id = auth()->id();
         return Message::select(
-            'id',
-            DB::raw("IF(user_id=$user_id, TRUE, FALSE) as written_by_me"),
-            'content',
-            'created_at'
-        )->where('conversation_id', $conversation_id)->get();
+            'messages.id',
+            'messages.user_id',
+            'users.name as user_name',
+            DB::raw("IF(messages.user_id=$user_id, 'You', users.name) as written_by"),
+            DB::raw("IF(messages.user_id=$user_id, TRUE, FALSE) as written_by_me"),
+            'users.avatar',
+            'messages.content',
+            'messages.created_at'
+        )
+        ->join('users', 'messages.user_id', '=', 'users.id')
+        ->where('conversation_id', $conversation_id)
+        ->get();
     }
 
     /**
@@ -42,7 +49,7 @@ class MessageController extends Controller
         $data = [];
         $data['success'] = $saved;
         $data['message'] = $message;
-    
+
         return $data;
     }
 

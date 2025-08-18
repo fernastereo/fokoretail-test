@@ -48,22 +48,22 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {   
+    {
         // $base64_image = $request->avatar;
-        
+
         /*Guardar en s3 en lugar del local storage*/
 
         // if (preg_match('/^data:image\/(\w+);base64,/', $base64_image)) {
         //     $data = substr($base64_image, strpos($base64_image, ',') + 1);
-            
+
         //     $data = base64_decode($data);
         //     $f = finfo_open();
 
         //     $mime_type = finfo_buffer($f, $data, FILEINFO_MIME_TYPE);
         //     $split = explode( '/', $mime_type );
-        //     $type = $split[1]; 
+        //     $type = $split[1];
         //     $imageName = Str::random(15) . '.' . $type;
-            
+
         //     Storage::disk('local')->put($imageName, $data);
         //     $user->avatar = '/storage/users/' . $imageName;
         // }
@@ -71,18 +71,18 @@ class UserController extends Controller
         // $saved = $user->save();
         try{
             $user = User::findOrFail(auth()->user()->id);
-            // return $user;
-            $name = $request->has('name') ? $request->name : null;
-            $avatar = $request->has('avatar') ? $request->file('avatar') : null;
-            // return $avatar;
-            // return $request;
-            // $storagePath = Storage::disk('s3')->put($avatar, 'public');        
-            $storagePath = Storage::disk('s3')->put('profiles', $avatar, 'public');
-            //Guardo la url completa para acceder al archivo dentro del bucket en la variable $url
-            $url = Storage::url($storagePath);
-            
-            $user->name = $name;
-            $user->avatar = $url;
+
+            if ($request->has('name')) {
+                $user->name = $request->name;
+            }
+
+            // Solo procesar el avatar si se envió un archivo
+            if ($request->hasFile('avatar')) {
+                $avatar = $request->file('avatar');
+                $storagePath = Storage::disk('s3')->put('profiles', $avatar, 'public');
+                $url = Storage::url($storagePath);
+                $user->avatar = $url;
+            }
             $saved = $user->save();
 
             $data = [];
