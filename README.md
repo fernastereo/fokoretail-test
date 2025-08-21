@@ -1,9 +1,9 @@
 # API for a chat system
 
-In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](https://pusher.com/) for developing the API and [VueJS](https://vuejs.org/) for the frontend in an approach for an SPA. 
+Chat application developed to enable instant communication between users, combining a REST API in PHP with [Laravel](https://laravel.com/) and a [VueJS](https://vuejs.org/) frontend interface. The solution integrates Sockets using Laravel Echo and [Pusher](https://pusher.com/), allowing real-time updates of messages and notifications, providing a smooth and responsive user experience in collaborative environments.
 
-## Requisitos previos
-- Node.js 16.1.0 (recomendado)
+## Requirements
+- Node.js 16.1.0
 - npm 7.11.2
 - PHP 7.3.21
 - Laravel 7.0
@@ -20,9 +20,14 @@ In This repository I make use of [Laravel](https://laravel.com/) and [Pusher](ht
 8. Optionally you can run the seeders for some data samples adding _--seed_ to the above command.
 9. Run your local server with php artisan serve
 
-## You can watch the app live on: https://fernandocueto.com
+## You can watch the app live on: https://fokochat.click/
 
-Just register and start to talk with friends.
+User-demo: demo@fokochat.click
+Password: demosecret
+
+Or just register and start to talk with friends.
+
+## You can know more about me on: https://fernandocueto.com/
 
 ## End Points
 
@@ -81,3 +86,7 @@ Just register and start to talk with friends.
 `/api/invitations/{invitation}/deny`
 
 -   Requires authentication. As of now, this can only be achieved by logging in manually on the website.
+
+---
+
+⭐ If you like this project, ¡give it a star on GitHub!
